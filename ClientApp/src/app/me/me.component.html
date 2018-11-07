@@ -1,0 +1,23 @@
+<div *ngIf="!me">
+  Loading...
+</div>
+<div *ngIf="me">
+  <h2>{{me.firstName}} {{me.lastName}}</h2>
+  <div class="clr-row">
+    <div class="clr-col-4">
+      <form clrForm>
+        <clr-input-container>
+          <label>Title</label>
+          <input clrInput type="text" readonly="true" [(ngModel)]="me.title" name="title" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Email</label>
+          <input clrInput type="text" readonly="true" [(ngModel)]="me.email" name="email" />
+        </clr-input-container>
+      </form>
+    </div>
+    <div class="clr-col-6">
+      <span>6</span>
+    </div>
+  </div>
+</div>

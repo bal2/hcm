@@ -1,0 +1,15 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="loginForm" (ngSubmit)="login()">
+    <section class="title">
+      HADU Crew Management
+    </section>
+    <div class="login-group">
+      <input class="username" type="text" id="login_username" placeholder="Email" formControlName="email">
+      <input class="password" type="password" id="login_password" placeholder="Password" formControlName="password">
+      <div class="error active" *ngIf="loginError">
+        Invalid user name or password
+      </div>
+      <button [disabled]="!loginForm.valid" [clrLoading]="loginBtnState" class="btn btn-primary">Sign in</button>
+    </div>
+  </form>
+</div>
