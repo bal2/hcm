@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace hcm.Controllers.Me
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), ApiController]
     public class MeController : Controller
     {
 
