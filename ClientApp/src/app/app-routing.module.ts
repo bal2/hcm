@@ -4,9 +4,11 @@ import { MeComponent } from './me/me.component';
 import { AuthGuard } from './login/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MembersComponent } from './members/members.component';
 
 const routes: Routes = [
   { path: "", component: MeComponent, canActivate: [AuthGuard] },
+  { path: "members", component: MembersComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
 ];
 

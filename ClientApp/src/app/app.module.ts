@@ -11,12 +11,14 @@ import { MeComponent } from './me/me.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { MembersComponent } from './members/members.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MeComponent
+    MeComponent,
+    MembersComponent
   ],
   imports: [
     BrowserModule,

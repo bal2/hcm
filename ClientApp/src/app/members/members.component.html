@@ -1,0 +1,84 @@
+<div *ngIf="!members">
+  Loading...
+</div>
+
+<div *ngIf="members">
+  <h2>Members</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="left">User id</th>
+        <th class="left">Name</th>
+        <th class="left">Title</th>
+        <th class="left">Email</th>
+        <th class="left">Phone</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of members">
+        <td class="left">{{m.userId}}</td>
+        <td class="left">{{m.firstName}} {{m.lastName}}</td>
+        <td class="left">{{m.title}}</td>
+        <td class="left">{{m.email}}</td>
+        <td class="left">{{m.phone}}</td>
+        <td><span style="cursor: pointer;" (keyup.enter)="openUser(m.userId)" (click)="openUser(m.userId)" tabindex="0">
+            <clr-icon shape="pencil"></clr-icon> Edit
+          </span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button *ngIf="!showNewUserForm" (click)="openCloseForm()" class="btn btn-primary">
+    <clr-icon shape="plus"></clr-icon> Create new user
+  </button>
+
+  <div *ngIf="showNewUserForm">
+    <h3>New user:</h3>
+
+    <form clrForm [formGroup]="newUserForm" clrLayout="horizontal" (ngSubmit)="submitForm()">
+      <clr-input-container>
+        <label>Email</label>
+        <input clrInput placeholder="Email" name="email" formControlName="email" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Password</label>
+        <input clrInput placeholder="Password" name="password" formControlName="password" type="password" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>First name</label>
+        <input clrInput placeholder="First name" name="firstName" formControlName="firstName" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Last name</label>
+        <input clrInput placeholder="Last name" name="lastName" formControlName="lastName" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Title</label>
+        <input clrInput placeholder="Title" name="title" formControlName="title" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Phone</label>
+        <input clrInput placeholder="Phone" name="phone" formControlName="phone" type="tel" />
+      </clr-input-container>
+
+      <div *ngIf="error" class="alert alert-danger" role="alert">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                {{error}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+      <button class="btn btn-primary" [disabled]="!newUserForm.valid" (click)="submitForm">
+        <clr-icon shape="plus"></clr-icon> Create
+      </button>
+      <button class="btn btn-outline" (click)="openCloseForm()">Cancel</button>
+    </form>
+  </div>
+</div>
