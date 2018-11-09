@@ -2,17 +2,17 @@
   Loading...
 </div>
 <div *ngIf="me">
-  <h2>{{me.firstName}} {{me.lastName}}</h2>
+  <h2>{{me.firstName}} {{me.lastName}} <span *ngIf="me.title">- {{me.title}}</span></h2>
   <div class="clr-row">
     <div class="clr-col-4">
       <form clrForm>
         <clr-input-container>
-          <label>Title</label>
-          <input clrInput type="text" readonly="true" [(ngModel)]="me.title" name="title" />
+          <label>Email</label>
+          <input clrInput type="email" [(ngModel)]="me.email" name="email" />
         </clr-input-container>
         <clr-input-container>
-          <label>Email</label>
-          <input clrInput type="text" readonly="true" [(ngModel)]="me.email" name="email" />
+          <label>Phone</label>
+          <input clrInput type="tel" [(ngModel)]="me.phone" name="phone" />
         </clr-input-container>
       </form>
     </div>
