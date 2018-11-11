@@ -1,12 +1,11 @@
 using System;
 using hcm.Database.Models;
 
-namespace hcm.Controllers.Me
-{
-    public class MeResourceModel
-    {
+namespace hcm.Controllers.Users {
+    public class UserDetailedResourceModel {
         public long UserId { get; set; }
         public string Email { get; set; }
+        public string PasswordHash { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
@@ -16,16 +15,14 @@ namespace hcm.Controllers.Me
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public MeResourceModel(User u)
-        {
+        public UserDetailedResourceModel (User u) {
             this.UserId = u.UserId;
             this.Email = u.Email;
             this.FirstName = u.FirstName;
             this.LastName = u.LastName;
             this.Title = u.Title;
             this.Phone = u.Phone;
-            this.IsPictureApproved = u.IsPictureApproved;
-            this.Base64Picture = Convert.ToBase64String(u.Picture);
+            
             this.CreatedAt = u.CreatedAt;
             this.UpdatedAt = u.UpdatedAt;
         }

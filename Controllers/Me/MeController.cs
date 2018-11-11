@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using hcm.Database;
+using hcm.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,16 +15,18 @@ namespace hcm.Controllers.Me
     {
 
         private HcmContext _dbContext;
+        private UserService _userService;
 
-        public MeController(HcmContext context)
+        public MeController(HcmContext context, UserService userService)
         {
             this._dbContext = context;
+            this._userService = userService;
         }
 
         [HttpGet, Authorize]
-        public IActionResult GetMe()
+        public async Task<IActionResult> GetMeAsync()
         {
-            var user = _dbContext.Users.Where(u => u.UserId == GetUserId()).FirstOrDefault();
+            var user = await _userService.GetUserAsync(GetUserId());
 
             return Ok(new MeResourceModel(user));
         }

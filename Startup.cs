@@ -1,5 +1,6 @@
 using System.Text;
 using hcm.Database;
+using hcm.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,6 +45,8 @@ namespace hcm
             services.AddDbContext<HcmContext> (opt =>
                 opt.UseSqlite ("Filename=./hcm.sqlite")
             );
+
+            services.AddScoped<UserService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

@@ -5,8 +5,8 @@ export class MeModel {
     lastName: string;
     title: string;
     phone: string;
-    base64image: string;
-    isImageApproved: boolean;
+    base64picture: string;
+    isPictureApproved: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
