@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using hcm.Controllers.Users;
 using hcm.Database;
+using hcm.Exceptions;
 using hcm.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +31,26 @@ namespace hcm.Controllers.Me
             var user = await _userService.GetUserAsync(GetUserId());
 
             return Ok(new MeResourceModel(user));
+        }
+
+        [HttpPost("picture"), Authorize]
+        public async Task<IActionResult> PostPictureAsync([FromBody] UserPictureResourceModel pic)
+        {
+            try
+            {
+                byte[] bytes = Convert.FromBase64String(pic.base64Picture);
+
+                var user = await _userService.SetPictureAsync(GetUserId(), bytes);
+
+                return Ok(new UserPictureResourceModel()
+                {
+                    base64Picture = Convert.ToBase64String(user.Picture)
+                });
+            }
+            catch (BadRequestException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         private long GetUserId()

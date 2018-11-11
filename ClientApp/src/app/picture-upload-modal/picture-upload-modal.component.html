@@ -1,0 +1,43 @@
+<clr-modal [(clrModalOpen)]="isOpen">
+  <h3 class="modal-title">Picture upload</h3>
+  <div class="modal-body">
+    <div class="alert alert-info" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="info-circle"></clr-icon>
+          </div>
+          <span class="alert-text">
+            Please use a recent photo with your face in focus.
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf="error" role="alert">
+        <div class="alert-items">
+          <div class="alert-item static">
+            <div class="alert-icon-wrapper">
+              <clr-icon class="alert-icon" shape="info-circle"></clr-icon>
+            </div>
+            <span class="alert-text">
+              {{error}}
+            </span>
+          </div>
+        </div>
+      </div>
+
+    <clr-input-container>
+      <input clrInput accept="image/x-png,image/gif,image/jpeg" type="file" readonly="true" [(ngModel)]="file" name="fileName"
+        (change)="onFileChanged($event)" #fileInput />
+    </clr-input-container>
+
+
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 5"
+      [resizeToWidth]="768" format="png" (imageCroppedBase64)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+  </div>
+  <div class="modal-footer">
+    <button [clrLoading]="loading" type="button" class="btn btn-outline" (click)="close()">Cancel</button>
+    <button [clrLoading]="loading" type="button" class="btn btn-primary" [disabled]="!base64Img" (click)="uploadPicture()">Ok</button>
+  </div>
+</clr-modal>

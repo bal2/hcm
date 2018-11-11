@@ -3,21 +3,68 @@
 </div>
 <div *ngIf="me">
   <h2>{{me.firstName}} {{me.lastName}} <span *ngIf="me.title">- {{me.title}}</span></h2>
-  <div class="clr-row">
-    <div class="clr-col-4">
+  <div class="row">
+    <div class="col-md-4">
       <form clrForm>
         <clr-input-container>
           <label>Email</label>
-          <input clrInput type="email" [(ngModel)]="me.email" name="email" />
+          <input clrInput type="email" readonly="true" [(ngModel)]="me.email" name="email" />
         </clr-input-container>
         <clr-input-container>
           <label>Phone</label>
-          <input clrInput type="tel" [(ngModel)]="me.phone" name="phone" />
+          <input clrInput type="tel" readonly="true" [(ngModel)]="me.phone" name="phone" />
         </clr-input-container>
       </form>
     </div>
-    <div class="clr-col-6">
-      <span>6</span>
+    <div class="col-md-2">
+      <button class="btn btn-primary" (click)="picModal.open()">
+        <clr-icon shape="upload"></clr-icon> Upload new image
+      </button>
+      <div *ngIf="!me.base64Picture">
+        <div class="alert alert-danger" role="alert">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                You have not added a picture. Please upload one now or ask your crew leader to add one for you.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="me.base64Picture">
+        <img src="data:image/png;base64,{{me.base64Picture}}" class="img-fluid">
+
+        <div class="alert alert-info" *ngIf="!me.isPictureApproved" role="alert">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                Your picture is pending approval by your crew leader.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-success" *ngIf="me.isPictureApproved" role="alert">
+            <div class="alert-items">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                </div>
+                <span class="alert-text">
+                  Your picture has been approved!
+                </span>
+              </div>
+            </div>
+          </div>
+      </div>
     </div>
   </div>
 </div>
+
+<app-picture-upload-modal (pictureUploaded)="fetchProfile()" #picModal></app-picture-upload-modal>
