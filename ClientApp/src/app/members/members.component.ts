@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MemberModel, NewMemberModel } from './member.model';
 import { MemberService } from './member.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-members',
@@ -25,7 +26,7 @@ export class MembersComponent implements OnInit {
 
   error: string;
 
-  constructor(private memberService: MemberService) { }
+  constructor(private memberService: MemberService, private router: Router) { }
 
   ngOnInit() {
     this.getMembers();
@@ -38,7 +39,7 @@ export class MembersComponent implements OnInit {
   }
 
   openUser(id: number) {
-    console.log(id);
+    this.router.navigate(['members/' + id]);
   }
 
   openCloseForm() {

@@ -1,0 +1,104 @@
+<div *ngIf="!member">
+  Loading...
+</div>
+<div *ngIf="member">
+  <h2>{{member.firstName}} {{member.lastName}} <span *ngIf="member.title">- {{member.title}}</span></h2>
+  <div class="row">
+    <div class="col-md-4">
+      <form clrForm [formGroup]="memberForm" (ngSubmit)="update()">
+        <clr-input-container>
+          <label>First name</label>
+          <input clrInput placeholder="First name" name="firstName" formControlName="firstName" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Last name</label>
+          <input clrInput placeholder="Last name" name="lastName" formControlName="lastName" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Title</label>
+          <input clrInput placeholder="Title" name="title" formControlName="title" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Email</label>
+          <input clrInput placeholder="Email" name="email" formControlName="email" />
+        </clr-input-container>
+        <clr-input-container>
+          <label>Phone</label>
+          <input clrInput placeholder="Phone" name="phone" formControlName="phone" type="tel" />
+        </clr-input-container>
+
+        <div *ngIf="error" class="alert alert-danger" role="alert">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                {{error}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <button [clrLoading]="loading" class="btn btn-primary" [disabled]="!memberForm.valid" (click)="update()">
+          <clr-icon shape="check"></clr-icon> Update user
+        </button>
+      </form>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary" [clrLoading]="loading" (click)="picModal.open(member.userId)">
+        <clr-icon shape="upload"></clr-icon> Upload new image
+      </button>
+      <div *ngIf="!member.base64Picture">
+        <div class="alert alert-danger" role="alert">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                This member has not uploaded a picture. You can upload one for the member by using the button above.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="member.base64Picture">
+        <img src="data:image/png;base64,{{member.base64Picture}}" class="img-fluid">
+
+        <div class="alert alert-info" *ngIf="!member.isPictureApproved" role="alert">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                This picture is pending approval. Use the button below to approve.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-success" *ngIf="member.isPictureApproved" role="alert">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                This picture has been approved!
+              </span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!member.isPictureApproved">
+          <button [clrLoading]="loading" class="btn btn-success" (click)="approvePicture()">
+            <clr-icon shape="check"></clr-icon> Approve picture
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-picture-upload-modal (pictureUploaded)="fetchProfile()" #picModal></app-picture-upload-modal>

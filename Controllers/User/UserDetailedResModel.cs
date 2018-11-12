@@ -22,7 +22,8 @@ namespace hcm.Controllers.Users {
             this.LastName = u.LastName;
             this.Title = u.Title;
             this.Phone = u.Phone;
-            
+            this.IsPictureApproved = u.IsPictureApproved;
+            this.Base64Picture = u.Picture != null ? Convert.ToBase64String(u.Picture) : null;
             this.CreatedAt = u.CreatedAt;
             this.UpdatedAt = u.UpdatedAt;
         }

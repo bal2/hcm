@@ -14,6 +14,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { MembersComponent } from './members/members.component';
 import { PictureUploadModalComponent } from './picture-upload-modal/picture-upload-modal.component';
+import { MemberprofileComponent } from './memberprofile/memberprofile.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { PictureUploadModalComponent } from './picture-upload-modal/picture-uplo
     LoginComponent,
     MeComponent,
     MembersComponent,
-    PictureUploadModalComponent
+    PictureUploadModalComponent,
+    MemberprofileComponent
   ],
   imports: [
     BrowserModule,

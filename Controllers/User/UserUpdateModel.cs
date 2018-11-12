@@ -10,6 +10,7 @@ namespace hcm.Controllers.Users
         public string LastName { get; set; }
         public string Title { get; set; }
         public string Phone { get; set; }
+        public bool IsPictureApproved { get; set; }
 
         public UserUpdateResourceModel() { }
     }
