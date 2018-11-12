@@ -6,12 +6,14 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MembersComponent } from './members/members.component';
 import { MemberprofileComponent } from './memberprofile/memberprofile.component';
+import { CardaccessComponent } from './cardaccess/cardaccess.component';
 
 const routes: Routes = [
   { path: "", component: MeComponent, canActivate: [AuthGuard] },
   { path: "members", component: MembersComponent, canActivate: [AuthGuard] },
   { path: "members/:id", component: MemberprofileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
+  { path: 'access', component: CardaccessComponent }
 ];
 
 @NgModule({

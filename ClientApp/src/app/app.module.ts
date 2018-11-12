@@ -15,6 +15,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { MembersComponent } from './members/members.component';
 import { PictureUploadModalComponent } from './picture-upload-modal/picture-upload-modal.component';
 import { MemberprofileComponent } from './memberprofile/memberprofile.component';
+import { CardaccessComponent } from './cardaccess/cardaccess.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MemberprofileComponent } from './memberprofile/memberprofile.component'
     MeComponent,
     MembersComponent,
     PictureUploadModalComponent,
-    MemberprofileComponent
+    MemberprofileComponent,
+    CardaccessComponent
   ],
   imports: [
     BrowserModule,

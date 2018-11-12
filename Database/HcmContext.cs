@@ -7,6 +7,7 @@ namespace hcm.Database
     public class HcmContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<CardAccess> CardAccesses { get; set; }
 
         public HcmContext(DbContextOptions<HcmContext> options) : base(options)
         {
@@ -25,6 +26,13 @@ namespace hcm.Database
                 .Property<DateTime>(u => u.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAddOrUpdate();
+
+            modelBuilder.Entity<CardAccess>()
+                .HasKey(c => c.AccessId);
+            modelBuilder.Entity<CardAccess>()
+                .Property<DateTime>(c => c.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAdd();
         }
     }
 }

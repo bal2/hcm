@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        Please scan your card
+      </div>
+      <div class="card-block">
+        <div class="card-text">
+          <input type="text" [(ngModel)]="cardId" (keyup.enter)="scanCard()" class="clr-input" autofocus>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="success" class="alert alert-success" role="alert">
+        <div class="alert-items">
+            <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                    <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Hello, {{success.firstName}}</span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+        <div class="alert-items">
+            <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                    <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                </div>
+                <span class="alert-text">Not a valid card</span>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="col-md-3"></div>
+</div>
