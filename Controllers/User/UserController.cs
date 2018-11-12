@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -84,6 +85,30 @@ namespace hcm.Controllers.Users
                 await _dbContext.SaveChangesAsync();
 
                 return Ok(new UserDetailedResourceModel(user));
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpPost("{id}/picture"), Authorize]
+        public async Task<IActionResult> PostUserPictureAsync(long id, UserPictureResourceModel pic)
+        {
+            try
+            {
+                byte[] bytes = Convert.FromBase64String(pic.base64Picture);
+
+                var user = await _userService.SetPictureAsync(id, bytes);
+
+                return Ok(new UserPictureResourceModel()
+                {
+                    base64Picture = Convert.ToBase64String(user.Picture)
+                });
+            }
+            catch (BadRequestException e)
+            {
+                return BadRequest(e.Message);
             }
             catch (NotFoundException e)
             {

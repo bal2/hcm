@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MeService } from '../me/me.service';
 import { UserPictureModel } from './userPicture.model';
 import { ClrLoadingState } from '@clr/angular';
+import { MemberService } from '../members/member.service';
 
 @Component({
   selector: 'app-picture-upload-modal',
@@ -22,7 +23,7 @@ export class PictureUploadModalComponent implements OnInit {
 
   @Output() pictureUploaded: EventEmitter<string> = new EventEmitter();
 
-  constructor(private meService: MeService) { }
+  constructor(private meService: MeService, private memberService: MemberService) { }
 
   ngOnInit() {
   }
@@ -83,7 +84,18 @@ export class PictureUploadModalComponent implements OnInit {
         }, (err) => {
           this.error = err;
           this.loading = ClrLoadingState.ERROR;
-        })
+        });
+    }
+    else {
+      this.memberService.uploadPicture(this.userId, obj)
+        .subscribe((data) => {
+          this.loading = ClrLoadingState.SUCCESS;
+          this.pictureUploaded.emit(data.base64Picture);
+          this.close();
+        }, (err) => {
+          this.error = err;
+          this.loading = ClrLoadingState.ERROR;
+        });
     }
   }
 

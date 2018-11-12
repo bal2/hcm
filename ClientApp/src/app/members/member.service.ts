@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MemberModel, NewMemberModel } from './member.model';
 import { MemberDetailsModel } from './memberDetails.model';
+import { UserPictureModel } from '../picture-upload-modal/userPicture.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class MemberService {
 
   update(id: number, m: MemberDetailsModel): Observable<MemberDetailsModel> {
     return this.http.put<MemberDetailsModel>("/api/users/" + id, m);
+  }
+
+  uploadPicture(id:number, pic: UserPictureModel): Observable<UserPictureModel> {
+    return this.http.post<UserPictureModel>(`/api/users/${id}/picture`, pic);
   }
 }
