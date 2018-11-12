@@ -16,9 +16,9 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required])
   });
 
-  private loginBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+  public loginBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
   private returnUrl: string;
-  private loginError: string;
+  public loginError: string;
 
   constructor(
     private route: ActivatedRoute,

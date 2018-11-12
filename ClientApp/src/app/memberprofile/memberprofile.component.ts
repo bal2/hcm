@@ -12,7 +12,7 @@ import { ClrLoadingState } from '@clr/angular';
 })
 export class MemberprofileComponent implements OnInit {
 
-  private member: MemberDetailsModel;
+  public member: MemberDetailsModel;
 
   private memberForm: FormGroup;
 
@@ -36,8 +36,6 @@ export class MemberprofileComponent implements OnInit {
     this.memberService.get(Number.parseInt(id))
       .subscribe(member => {
         this.member = member
-
-        console.log(member);
 
         this.memberForm = new FormGroup({
           firstName: new FormControl(member.firstName, [Validators.required]),

@@ -11,5 +11,5 @@ export class AppComponent {
 
   collapsed: boolean = true;
 
-  constructor(private authService: AuthenticationService, private alertService: GlobalAlertService) { }
+  constructor(public authService: AuthenticationService, public alertService: GlobalAlertService) { }
 }

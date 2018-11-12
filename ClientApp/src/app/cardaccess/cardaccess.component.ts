@@ -9,9 +9,9 @@ import { MemberModel } from '../members/member.model';
 })
 export class CardaccessComponent implements OnInit {
 
-  private cardId: string;
-  private success: MemberModel;
-  private error: string;
+  public cardId: string;
+  public success: MemberModel;
+  public error: string;
 
   constructor(private http: HttpClient) { }
 

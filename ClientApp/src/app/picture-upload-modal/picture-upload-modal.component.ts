@@ -15,11 +15,13 @@ export class PictureUploadModalComponent implements OnInit {
 
   userId: number;
 
-  private base64Img: string;
-  private fileName: string;
-  private imageChangedEvent: any = '';
-  private error: string;
-  private loading = ClrLoadingState.DEFAULT;
+  public base64Img: string;
+  public fileName: string;
+  public imageChangedEvent: any = '';
+  public error: string;
+  public loading = ClrLoadingState.DEFAULT;
+
+  public file;
 
   @Output() pictureUploaded: EventEmitter<string> = new EventEmitter();
 
@@ -43,7 +45,7 @@ export class PictureUploadModalComponent implements OnInit {
     this.loading = ClrLoadingState.DEFAULT;
   }
 
-  private onFileChanged(event: any) {
+  public onFileChanged(event: any) {
     this.imageChangedEvent = event;
     try {
       this.fileName = event.target.files[0].name;
@@ -53,21 +55,21 @@ export class PictureUploadModalComponent implements OnInit {
     }
   }
 
-  private imageCropped(image: string) {
+  public imageCropped(image: string) {
     this.base64Img = image.split(',')[1]; //remove metadata
   }
 
-  private imageLoaded() {
+  public imageLoaded() {
     this.error = null;
   }
 
-  private loadImageFailed() {
+  public loadImageFailed() {
     this.error = "Failed to load image. Are you sure you selected an image file?"
     this.fileName = null;
     this.base64Img = null;
   }
 
-  private uploadPicture() {
+  public uploadPicture() {
     let obj: UserPictureModel = {
       base64Picture: this.base64Img,
       approved: false
