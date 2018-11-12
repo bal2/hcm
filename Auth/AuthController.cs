@@ -39,6 +39,11 @@ namespace hcm.Auth
             if (hasher.VerifyHashedPassword(user, user.PasswordHash, credentials.Password) != PasswordVerificationResult.Success)
                 return BadRequest("Invalid credentials");
 
+            var claims = new[] { new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()) };
+
+            if(user.IsAdmin)
+                claims = new[] { new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()), new Claim(CustomClaimTypes.IsAdmin, user.IsAdmin.ToString()) };
+                
 
             //TODO
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
@@ -47,7 +52,7 @@ namespace hcm.Auth
             var token = new JwtSecurityToken(
                 issuer: "http://localhost:5000",
                 audience: "http://localhost:5000",
-                claims: new[] { new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()) },
+                claims: claims,
                 expires: expirationTime,
                 signingCredentials: signinCredentials
             );
@@ -67,5 +72,10 @@ namespace hcm.Auth
             Token = token;
             ExpirationTime = expirationTime;
         }
+    }
+
+    public static class CustomClaimTypes
+    {
+        public const string IsAdmin = "IsAdmin";
     }
 }

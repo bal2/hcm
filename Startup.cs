@@ -42,8 +42,14 @@ namespace hcm
                 };
             });
 
-            services.AddDbContext<HcmContext> (opt =>
-                opt.UseSqlite ("Filename=./hcm.sqlite")
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsAdmin",
+                policy => policy.RequireClaim("IsAdmin"));
+            });
+
+            services.AddDbContext<HcmContext>(opt =>
+               opt.UseSqlite("Filename=./hcm.sqlite")
             );
 
             services.AddScoped<UserService>();
@@ -76,7 +82,7 @@ namespace hcm
 
             app.UseAuthentication();
 
-            dbContext.Database.EnsureCreated ();
+            dbContext.Database.EnsureCreated();
 
             app.UseMvc(routes =>
             {

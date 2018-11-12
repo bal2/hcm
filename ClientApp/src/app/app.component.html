@@ -1,4 +1,21 @@
 <clr-main-container>
+  <div *ngFor="let a of alertService.alerts | async">
+    <div class="alert alert-app-level" [ngClass]="{'alert-danger': a.type == 'danger'}" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+          </div>
+          <div class="alert-text">
+            {{a.message}}
+          </div>
+        </div>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="alertService.close(a.id)">
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+  </div>
   <clr-header *ngIf="authService.isAuthenticated()">
     <div class="branding">
       <a class="nav-link">
