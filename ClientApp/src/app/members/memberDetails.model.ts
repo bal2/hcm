@@ -7,6 +7,8 @@ export class MemberDetailsModel {
     phone: string;
     base64Picture: string;
     isPictureApproved: boolean;
+    cardId: string;
+    isAdmin: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

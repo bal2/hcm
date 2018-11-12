@@ -80,6 +80,8 @@ namespace hcm.Controllers.Users
                 user.Title = u.Title;
                 user.Phone = u.Phone;
                 user.IsPictureApproved = u.IsPictureApproved;
+                user.IsAdmin = u.IsAdmin;
+                user.CardId = u.CardId;
 
                 _dbContext.Users.Update(user);
                 await _dbContext.SaveChangesAsync();

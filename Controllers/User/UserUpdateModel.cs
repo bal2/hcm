@@ -11,6 +11,8 @@ namespace hcm.Controllers.Users
         public string Title { get; set; }
         public string Phone { get; set; }
         public bool IsPictureApproved { get; set; }
+        public string CardId { get; set; }
+        public bool IsAdmin { get; set; }
 
         public UserUpdateResourceModel() { }
     }

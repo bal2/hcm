@@ -26,6 +26,16 @@
           <label>Phone</label>
           <input clrInput placeholder="Phone" name="phone" formControlName="phone" type="tel" />
         </clr-input-container>
+        <clr-input-container>
+          <label>Card id</label>
+          <input clrInput placeholder="Card id" name="cardId" formControlName="cardId" />
+        </clr-input-container>
+          <div class="checkbox">
+            <br>
+            <input type="checkbox" formControlName="isAdmin" id="isAdminCheck">
+            <label for="isAdminCheck">Is admin</label>
+            <br>
+          </div>
 
         <div *ngIf="error" class="alert alert-danger" role="alert">
           <div class="alert-items">

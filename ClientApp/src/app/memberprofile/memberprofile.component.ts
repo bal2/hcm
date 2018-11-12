@@ -37,12 +37,16 @@ export class MemberprofileComponent implements OnInit {
       .subscribe(member => {
         this.member = member
 
+        console.log(member);
+
         this.memberForm = new FormGroup({
           firstName: new FormControl(member.firstName, [Validators.required]),
           lastName: new FormControl(member.lastName, [Validators.required]),
           email: new FormControl(member.email, [Validators.required, Validators.email]),
           title: new FormControl(member.title),
-          phone: new FormControl(member.phone)
+          phone: new FormControl(member.phone),
+          cardId: new FormControl(member.cardId),
+          isAdmin: new FormControl(member.isAdmin)
         });
       });
   }
@@ -59,6 +63,8 @@ export class MemberprofileComponent implements OnInit {
       phone: this.memberForm.value.phone,
       isPictureApproved: this.member.isPictureApproved,
       base64Picture: this.member.base64Picture,
+      isAdmin: this.memberForm.value.isAdmin,
+      cardId: this.memberForm.value.cardId,
       createdAt: this.member.createdAt,
       updatedAt: this.member.updatedAt
     }
