@@ -1,4 +1,5 @@
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using hcm.Database;
@@ -52,6 +53,37 @@ namespace hcm.Services
             await _dbContext.SaveChangesAsync();
 
             return u;
+        }
+
+        public string GenerateUsersZipFile()
+        {
+            var path = Path.GetTempPath() + "hcmusers";
+            var zipPath = path + ".zip";
+
+            if (Directory.Exists(path))
+                Directory.Delete(path, true);
+
+            Directory.CreateDirectory(path);
+
+            foreach (var u in _dbContext.Users)
+            {
+                if (u.Picture == null)
+                    continue;
+
+                using (FileStream fs = new FileStream(path + "/" + u.UserId + ".jpg", FileMode.Create))
+                {
+                    fs.Write(u.Picture);
+                }
+            }
+
+            //TODO: CSV file
+
+            if (File.Exists(zipPath))
+                File.Delete(zipPath);
+
+            ZipFile.CreateFromDirectory(path, zipPath);
+
+            return zipPath;
         }
     }
 }

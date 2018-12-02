@@ -118,6 +118,14 @@ namespace hcm.Controllers.Users
             }
         }
 
+        [HttpGet("zip")]
+        public IActionResult DownloadUsersZipFile()
+        {
+            var p = _userService.GenerateUsersZipFile();
 
+            byte[] fileBytes = System.IO.File.ReadAllBytes(p);
+
+            return File(fileBytes, "application/force-download", "users.zip");
+        }
     }
 }
