@@ -3,8 +3,8 @@
 </div>
 <div *ngIf="member">
   <h2>{{member.firstName}} {{member.lastName}} <span *ngIf="member.title">- {{member.title}}</span></h2>
-  <div class="row">
-    <div class="col-md-4">
+  <div class="clr-row">
+    <div class="clr-col-4">
       <form clrForm [formGroup]="memberForm" (ngSubmit)="update()">
         <clr-input-container>
           <label>First name</label>
@@ -55,7 +55,7 @@
         </button>
       </form>
     </div>
-    <div class="col-md-2">
+    <div class="clr-col-2">
       <button class="btn btn-primary" [clrLoading]="loading" (click)="picModal.open(member.userId)">
         <clr-icon shape="upload"></clr-icon> Upload new image
       </button>

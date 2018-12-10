@@ -3,8 +3,8 @@
 </div>
 <div *ngIf="me">
   <h2>{{me.firstName}} {{me.lastName}} <span *ngIf="me.title">- {{me.title}}</span></h2>
-  <div class="row">
-    <div class="col-md-4">
+  <div class="clr-row">
+    <div class="clr-col-4">
       <form clrForm>
         <clr-input-container>
           <label>Email</label>
@@ -16,7 +16,7 @@
         </clr-input-container>
       </form>
     </div>
-    <div class="col-md-2">
+    <div class="clr-col-2">
       <button class="btn btn-primary" (click)="picModal.open()" *ngIf="!me.isPictureApproved">
         <clr-icon shape="upload"></clr-icon> Upload new image
       </button>
