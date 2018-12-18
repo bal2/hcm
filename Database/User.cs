@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace hcm.Database.Models
 {
@@ -17,5 +18,6 @@ namespace hcm.Database.Models
         public string CardId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public List<GroupMembership> GroupMemberships { get; set; }
     }
 }
