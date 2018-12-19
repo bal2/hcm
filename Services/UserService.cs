@@ -2,6 +2,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using hcm.Controllers;
 using hcm.Database;
 using hcm.Database.Models;
 using hcm.Exceptions;
@@ -19,6 +20,12 @@ namespace hcm.Services
         public UserService(HcmContext context)
         {
             this._dbContext = context;
+        }
+
+        public PagedList<User> GetUsers(ListQueryArgs args)
+        {
+            var query = _dbContext.Users;
+            return new PagedList<User>(query, args.PageNumber, args.PageSize);
         }
 
         public async Task<User> GetUserAsync(long id)
