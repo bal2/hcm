@@ -34,7 +34,8 @@ export class MembersComponent implements OnInit {
 
   getMembers() {
     this.memberService.getAll().subscribe((data) => {
-      this.members = data;
+      this.members = data.items;
+      console.log(data);
     });
   }
 

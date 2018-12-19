@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { MemberModel, NewMemberModel } from './member.model';
 import { MemberDetailsModel } from './memberDetails.model';
 import { UserPictureModel } from '../picture-upload-modal/userPicture.model';
+import { ListResponse } from '../listResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class MemberService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<MemberModel[]> {
-    return this.http.get<MemberModel[]>("/api/users");
+  getAll(): Observable<ListResponse<MemberModel>> {
+    return this.http.get<ListResponse<MemberModel>>("/api/users");
   }
 
   create(m: NewMemberModel): Observable<NewMemberModel> {
@@ -28,7 +29,7 @@ export class MemberService {
     return this.http.put<MemberDetailsModel>("/api/users/" + id, m);
   }
 
-  uploadPicture(id:number, pic: UserPictureModel): Observable<UserPictureModel> {
+  uploadPicture(id: number, pic: UserPictureModel): Observable<UserPictureModel> {
     return this.http.post<UserPictureModel>(`/api/users/${id}/picture`, pic);
   }
 }
