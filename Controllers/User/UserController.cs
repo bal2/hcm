@@ -29,36 +29,13 @@ namespace hcm.Controllers.Users
         public IActionResult getUsers([FromQuery] ListQueryArgs args)
         {
             var m = _userService.GetUsers(args);
-            var header = new PagingHeader(m.TotalItems, m.PageNumber, m.PageSize, m.TotalPages);
-
-            var links = new List<LinkInfo>();
-
-            if (m.HasPreviousPage)
-                links.Add(createLink("GetUsers", m.PreviousPageNumber, m.PageSize, "previousPage", "GET"));
-
-            links.Add(createLink("GetUsers", m.PageNumber, m.PageSize, "self", "GET"));
-
-            if (m.HasNextPage)
-                links.Add(createLink("GetUsers", m.NextPageNumber, m.PageSize, "nextPage", "GET"));
 
             return Ok(new ListResModel<UserResourceModel>
             {
-                Paging = header,
-                Links = links,
+                Paging = ListResHelper.GenerateHeaderFromPagedList(m),
+                Links = ListResHelper.GenerateLinksFromPagedList(Url, "GetUsers", m),
                 Items = m.List.Select(x => new UserResourceModel(x)).ToList()
             });
-        }
-
-        //TODO: Move this into generic helper class
-        private LinkInfo createLink(string routeName, int pageNumber, int pageSize, string rel, string method)
-        {
-            return new LinkInfo
-            {
-                Href = Url.Link(routeName,
-                            new { PageNumber = pageNumber, PageSize = pageSize }),
-                Rel = rel,
-                Method = method
-            };
         }
 
         [HttpPost, Authorize(Policy = "IsAdmin")]

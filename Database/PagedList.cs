@@ -1,10 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using hcm.Database.Models;
 
 namespace hcm.Database
 {
-    public class PagedList<T>
+    public interface IPagedListProperties
+    {
+        int TotalItems { get; }
+        int PageNumber { get; }
+        int PageSize { get; }
+        int TotalPages { get; }
+        bool HasPreviousPage { get; }
+        bool HasNextPage { get; }
+        int NextPageNumber { get; }
+        int PreviousPageNumber { get; }
+    }
+    public class PagedList<T> : IPagedListProperties
     {
         public int TotalItems { get; }
         public int PageNumber { get; }
