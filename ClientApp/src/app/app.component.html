@@ -29,7 +29,7 @@
     </div>
     <clr-vertical-nav [clr-nav-level]="1" [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed"
       *ngIf="authService.isAuthenticated()">
-      <a clrVerticalNavLink routerLink="/" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/me" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="user"></clr-icon> Me
       </a>
       <a clrVerticalNavLink routerLink="/messages" routerLinkActive="active">
