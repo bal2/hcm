@@ -13,8 +13,8 @@ export class MemberService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<ListResponse<MemberModel>> {
-    return this.http.get<ListResponse<MemberModel>>("/api/users");
+  getAll(pageNumber = 1, pageSize = 10): Observable<ListResponse<MemberModel>> {
+    return this.http.get<ListResponse<MemberModel>>("/api/users?PageNumber=" + pageNumber + "&PageSize=" + pageSize);
   }
 
   create(m: NewMemberModel): Observable<NewMemberModel> {

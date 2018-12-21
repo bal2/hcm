@@ -1,33 +1,35 @@
-<div *ngIf="!members">
-  Loading...
-</div>
-
-<div *ngIf="members">
+<div>
   <h2>Members</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="left">User id</th>
-        <th class="left">Name</th>
-        <th class="left">Title</th>
-        <th class="left">Email</th>
-        <th class="left">Phone</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let m of members">
-        <td class="left">{{m.userId}}</td>
-        <td class="left">{{m.firstName}} {{m.lastName}}</td>
-        <td class="left">{{m.title}}</td>
-        <td class="left">{{m.email}}</td>
-        <td class="left">{{m.phone}}</td>
-        <td><span style="cursor: pointer;" (keyup.enter)="openUser(m.userId)" (click)="openUser(m.userId)" tabindex="0">
-            <clr-icon shape="pencil"></clr-icon> Edit
-          </span></td>
-      </tr>
-    </tbody>
-  </table>
+
+  <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+    <clr-dg-column>User ID</clr-dg-column>
+    <clr-dg-column>First name</clr-dg-column>
+    <clr-dg-column>Last name</clr-dg-column>
+    <clr-dg-column>Title</clr-dg-column>
+    <clr-dg-column>Email</clr-dg-column>
+    <clr-dg-column>Phone</clr-dg-column>
+    <clr-dg-column>Edit</clr-dg-column>
+
+    <clr-dg-row *ngFor="let m of members">
+      <clr-dg-cell>{{m.userId}}</clr-dg-cell>
+      <clr-dg-cell>{{m.firstName}}</clr-dg-cell>
+      <clr-dg-cell>{{m.lastName}}</clr-dg-cell>
+      <clr-dg-cell>{{m.title}}</clr-dg-cell>
+      <clr-dg-cell>{{m.email}}</clr-dg-cell>
+      <clr-dg-cell>{{m.phone}}</clr-dg-cell>
+      <clr-dg-cell>
+        <span style="cursor: pointer;" (keyup.enter)="openUser(m.userId)" (click)="openUser(m.userId)" tabindex="0">
+          <clr-icon shape="pencil"></clr-icon> Edit
+        </span>
+      </clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+      of {{total}} members
+      <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
 
   <button *ngIf="!showNewUserForm" (click)="openCloseForm()" class="btn btn-primary">
     <clr-icon shape="plus"></clr-icon> Create new user
@@ -63,17 +65,17 @@
       </clr-input-container>
 
       <div *ngIf="error" class="alert alert-danger" role="alert">
-          <div class="alert-items">
-            <div class="alert-item static">
-              <div class="alert-icon-wrapper">
-                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-              </div>
-              <span class="alert-text">
-                {{error}}
-              </span>
+        <div class="alert-items">
+          <div class="alert-item static">
+            <div class="alert-icon-wrapper">
+              <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
             </div>
+            <span class="alert-text">
+              {{error}}
+            </span>
           </div>
         </div>
+      </div>
 
       <button class="btn btn-primary" [disabled]="!newUserForm.valid" (click)="submitForm">
         <clr-icon shape="plus"></clr-icon> Create

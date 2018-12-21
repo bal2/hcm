@@ -3,6 +3,7 @@ import { MemberModel, NewMemberModel } from './member.model';
 import { MemberService } from './member.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ClrDatagridStateInterface } from '@clr/angular';
 
 @Component({
   selector: 'app-members',
@@ -12,8 +13,11 @@ import { Router } from '@angular/router';
 export class MembersComponent implements OnInit {
 
   members: MemberModel[];
+  total: number;
 
   showNewUserForm: boolean = false;
+
+  loading: boolean = true;
 
   newUserForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -29,13 +33,19 @@ export class MembersComponent implements OnInit {
   constructor(private memberService: MemberService, private router: Router) { }
 
   ngOnInit() {
-    this.getMembers();
+
   }
 
-  getMembers() {
-    this.memberService.getAll().subscribe((data) => {
+  refresh(state: ClrDatagridStateInterface) {
+    if (!state.page) //This happens since refresh is called when component is destroyed
+      return;
+
+    this.loading = true;
+
+    this.memberService.getAll(Math.ceil((state.page.from / state.page.size) + 1), state.page.size).subscribe((data) => {
       this.members = data.items;
-      console.log(data);
+      this.total = data.paging.totalItems;
+      this.loading = false;
     });
   }
 
@@ -68,7 +78,6 @@ export class MembersComponent implements OnInit {
         this.error = null;
         this.newUserForm.enable();
         this.openCloseForm();
-        this.getMembers();
       }, (error) => {
         this.error = error;
         this.newUserForm.enable();
