@@ -7,12 +7,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MembersComponent } from './members/members.component';
 import { MemberprofileComponent } from './memberprofile/memberprofile.component';
 import { CardaccessComponent } from './cardaccess/cardaccess.component';
+import { GroupsComponent } from './groups/groups.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "me", pathMatch: "full" },
   { path: "me", component: MeComponent, canActivate: [AuthGuard] },
   { path: "members", component: MembersComponent, canActivate: [AuthGuard] },
   { path: "members/:id", component: MemberprofileComponent, canActivate: [AuthGuard] },
+  { path: "groups", component: GroupsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'access', component: CardaccessComponent }
 ];

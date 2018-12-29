@@ -35,8 +35,11 @@
       <a clrVerticalNavLink routerLink="/messages" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="envelope"></clr-icon> Messages
       </a>
+      <a clrVerticalNavLink routerLink="/groups" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="users"></clr-icon> Groups
+      </a>
       <a clrVerticalNavLink routerLink="/members" routerLinkActive="active">
-        <clr-icon clrVerticalNavIcon shape="users"></clr-icon> Members
+        <clr-icon clrVerticalNavIcon shape="administrator"></clr-icon> Members
       </a>
       <div class="nav-divider"></div>
       <a clrVerticalNavLink (click)="authService.logout()" routerLink="/login">

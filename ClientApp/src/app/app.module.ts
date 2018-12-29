@@ -16,6 +16,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { GroupsComponent } from './groups/groups.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
     MembersComponent,
     PictureUploadModalComponent,
     MemberprofileComponent,
-    CardaccessComponent
+    CardaccessComponent,
+    GroupsComponent
   ],
   imports: [
     BrowserModule,
