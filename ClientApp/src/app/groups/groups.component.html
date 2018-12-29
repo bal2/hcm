@@ -18,4 +18,34 @@
     </clr-dg-footer>
   </clr-datagrid>
 
+  <button (click)="openCloseForm()" class="btn btn-primary">
+    <clr-icon shape="plus"></clr-icon> Create new group
+  </button>
 </div>
+
+<clr-modal [(clrModalOpen)]="showNewGroupForm">
+  <h3 class="modal-title">Create new group</h3>
+  <div class="modal-body">
+    <form clrForm [formGroup]="newGroupForm" (ngSubmit)="submitForm()">
+      <clr-input-container>
+        <label>Name</label>
+        <input clrInput placeholder="Name" name="name" formControlName="name" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Short name</label>
+        <input clrInput placeholder="E.g. SEC" name="shortName" formControlName="shortName" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Description</label>
+        <input clrInput placeholder="Description" name="description" formControlName="description" />
+      </clr-input-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" [disabled]="postState" (click)="openCloseForm()">Cancel</button>
+    <button type="button" class="btn btn-primary" [clrLoading]="postState" [disabled]="!newGroupForm.valid" (click)="submitForm()">Create
+      group</button>
+  </div>
+</clr-modal>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GroupModel } from './group.model';
+import { GroupModel, NewGroupModel } from './group.model';
 import { ListResponse } from '../listResponse.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -13,5 +13,9 @@ export class GroupService {
 
   getAll(pageNumber = 1, pageSize = 10): Observable<ListResponse<GroupModel>> {
     return this.http.get<ListResponse<GroupModel>>("/api/groups?PageNumber=" + pageNumber + "&PageSize=" + pageSize);
+  }
+
+  create(g: NewGroupModel): Observable<GroupModel> {
+    return this.http.post<GroupModel>("/api/groups", g);
   }
 }

@@ -6,3 +6,9 @@ export class GroupModel {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export class NewGroupModel {
+    name: string;
+    shortName: string;
+    description: string;
+}
