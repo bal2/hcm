@@ -57,6 +57,7 @@ namespace hcm
             );
 
             services.AddScoped<UserService>();
+            services.AddScoped<GroupService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
