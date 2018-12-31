@@ -18,4 +18,8 @@ export class GroupService {
   create(g: NewGroupModel): Observable<GroupModel> {
     return this.http.post<GroupModel>("/api/groups", g);
   }
+
+  get(id: number): Observable<GroupModel> {
+    return this.http.get<GroupModel>("/api/groups/" + id);
+  }
 }

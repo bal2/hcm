@@ -8,6 +8,7 @@ import { MembersComponent } from './members/members.component';
 import { MemberprofileComponent } from './memberprofile/memberprofile.component';
 import { CardaccessComponent } from './cardaccess/cardaccess.component';
 import { GroupsComponent } from './groups/groups.component';
+import { GroupDetailsComponent } from './groups/group-details/group-details.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "me", pathMatch: "full" },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "members", component: MembersComponent, canActivate: [AuthGuard] },
   { path: "members/:id", component: MemberprofileComponent, canActivate: [AuthGuard] },
   { path: "groups", component: GroupsComponent, canActivate: [AuthGuard] },
+  { path: "groups/:id", component: GroupDetailsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'access', component: CardaccessComponent }
 ];

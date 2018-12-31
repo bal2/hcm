@@ -17,6 +17,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { GroupsComponent } from './groups/groups.component';
+import { GroupDetailsComponent } from './groups/group-details/group-details.component';
+import { GroupMemberListComponent } from './groups/group-member-list/group-member-list.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { GroupsComponent } from './groups/groups.component';
     PictureUploadModalComponent,
     MemberprofileComponent,
     CardaccessComponent,
-    GroupsComponent
+    GroupsComponent,
+    GroupDetailsComponent,
+    GroupMemberListComponent
   ],
   imports: [
     BrowserModule,

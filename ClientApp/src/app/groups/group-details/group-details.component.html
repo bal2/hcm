@@ -1,0 +1,8 @@
+<div *ngIf="!group">
+  Loading...
+</div>
+<div *ngIf="group">
+  <h2>{{group.shortName}}: {{group.name}}</h2>
+  <p>{{group.description}}</p>
+  
+</div>
