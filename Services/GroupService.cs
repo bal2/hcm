@@ -28,12 +28,7 @@ namespace hcm.Services
 
         public async Task<GroupDTO> GetGroupAsync(long id)
         {
-            var g = await _dbContext.Groups.FindAsync(id);
-
-            if (g == null)
-                throw new NotFoundException("Group not found");
-
-            return new GroupDTO(g);
+            return new GroupDTO(await GetGroupModelAsync(id));
         }
 
         public async Task<GroupDTO> CreateGroupAsync(NewGroupDTO n)
@@ -51,9 +46,23 @@ namespace hcm.Services
             return new GroupDTO(g);
         }
 
+        public async Task<GroupDTO> UpdateGroupAsync(long id, UpdateGroupDTO u)
+        {
+            var g = await GetGroupModelAsync(id);
+
+            g.Name = u.Name;
+            g.ShortName = u.ShortName;
+            g.Description = u.Description;
+
+            _dbContext.Groups.Update(g);
+            await _dbContext.SaveChangesAsync();
+
+            return new GroupDTO(g);
+        }
+
         public async Task<PagedList<User>> GetMembersAsync(long id, ListQueryArgs args)
         {
-            var g = await GetGroupAsync(id);
+            var g = await GetGroupModelAsync(id);
 
             var query = _dbContext.GroupMemberships.Where(m => m.GroupId == id).Select(m => m.User);
             return new PagedList<User>(query, args.PageNumber, args.PageSize); //TODO: PagedList is not async
@@ -61,7 +70,7 @@ namespace hcm.Services
 
         public async Task<GroupMembership> AddMemberAsync(long groupId, long userId, bool isAdmin)
         {
-            var g = await GetGroupAsync(groupId);
+            var g = await GetGroupModelAsync(groupId);
             var u = await _userService.GetUserAsync(userId);
 
             var checkIfUserIsMemberQuery = _dbContext.GroupMemberships.Where(m => m.GroupId == groupId && m.UserId == userId);
@@ -79,6 +88,16 @@ namespace hcm.Services
             await _dbContext.SaveChangesAsync();
 
             return gm;
+        }
+
+        private async Task<Group> GetGroupModelAsync(long id)
+        {
+            var g = await _dbContext.Groups.FindAsync(id);
+
+            if (g == null)
+                throw new NotFoundException("Group not found");
+
+            return g;
         }
     }
 }

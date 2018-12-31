@@ -56,6 +56,19 @@ namespace hcm.Controllers.Groups
             return Ok(g);
         }
 
-        
+        [HttpPut("{id}"), Authorize(Policy = "IsAdmin")]
+        public async Task<IActionResult> UpdateGroupAsync(long id, [FromBody] GroupUpdateResourceModel u)
+        {
+            UpdateGroupDTO ug = new UpdateGroupDTO()
+            {
+                Name = u.Name,
+                ShortName = u.ShortName,
+                Description = u.Description
+            };
+
+            var g = await _groupService.UpdateGroupAsync(id, ug);
+
+            return Ok(g);
+        }
     }
 }
