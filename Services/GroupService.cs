@@ -60,22 +60,22 @@ namespace hcm.Services
             return new GroupDTO(g);
         }
 
-        public async Task<PagedList<User>> GetMembersAsync(long id, ListQueryArgs args)
+        public async Task<PagedList<MemberDTO>> GetMembersAsync(long id, ListQueryArgs args)
         {
             var g = await GetGroupModelAsync(id);
 
-            var query = _dbContext.GroupMemberships.Where(m => m.GroupId == id).Select(m => m.User);
-            return new PagedList<User>(query, args.PageNumber, args.PageSize); //TODO: PagedList is not async
+            var query = _dbContext.GroupMemberships.Where(m => m.GroupId == id).Include(m => m.User).Select(m => new MemberDTO(m));
+            return new PagedList<MemberDTO>(query, args.PageNumber, args.PageSize); //TODO: PagedList is not async
         }
 
-        public async Task<GroupMembership> AddMemberAsync(long groupId, long userId, bool isAdmin)
+        public async Task<MemberDTO> AddMemberAsync(long groupId, long userId, bool isAdmin)
         {
             var g = await GetGroupModelAsync(groupId);
             var u = await _userService.GetUserAsync(userId);
 
             var checkIfUserIsMemberQuery = _dbContext.GroupMemberships.Where(m => m.GroupId == groupId && m.UserId == userId);
             if ((await checkIfUserIsMemberQuery.FirstOrDefaultAsync()) != null)
-                throw new BadRequestException("User is already member of group");
+                throw new BadRequestException("User is already a member of the group");
 
             var gm = new GroupMembership()
             {
@@ -87,7 +87,20 @@ namespace hcm.Services
             await _dbContext.GroupMemberships.AddAsync(gm);
             await _dbContext.SaveChangesAsync();
 
-            return gm;
+            return new MemberDTO(gm);
+        }
+
+        public async Task RemoveMemberAsync(long groupId, long userId)
+        {
+            var g = await GetGroupModelAsync(groupId);
+            var u = await _userService.GetUserAsync(userId);
+
+            var gm = await _dbContext.GroupMemberships.Where(m => m.GroupId == groupId && m.UserId == userId).FirstOrDefaultAsync();
+            if (gm == null)
+                throw new BadRequestException("User is not a member of the group");
+
+            _dbContext.GroupMemberships.Remove(gm);
+            await _dbContext.SaveChangesAsync();
         }
 
         private async Task<Group> GetGroupModelAsync(long id)
