@@ -1,0 +1,10 @@
+li span.deleteIcon {
+    visibility: hidden;
+}
+li:hover span.deleteIcon  {
+    visibility: visible;
+}
+
+.deleteIcon {
+    cursor: pointer;
+}

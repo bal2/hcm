@@ -3,6 +3,7 @@ import { GroupModel } from './group.model';
 import { ClrDatagridStateInterface, ClrLoadingState } from '@clr/angular';
 import { GroupService } from './group.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-groups',
@@ -27,7 +28,10 @@ export class GroupsComponent implements OnInit {
   error: string;
   postState: ClrLoadingState = ClrLoadingState.DEFAULT;
 
-  constructor(private groupService: GroupService) { }
+  constructor(
+    private groupService: GroupService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -44,6 +48,10 @@ export class GroupsComponent implements OnInit {
       this.total = data.paging.totalItems;
       this.loading = false;
     });
+  }
+
+  openGroup(id: number) {
+    this.router.navigate(['groups/' + id]);
   }
 
   //Open and close form modal

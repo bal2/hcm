@@ -1,8 +1,18 @@
 <div *ngIf="!group">
   Loading...
 </div>
+
 <div *ngIf="group">
   <h2>{{group.shortName}}: {{group.name}}</h2>
   <p>{{group.description}}</p>
-  
+<hr>
+  <div class="clr-row">
+    <div class="clr-col-8">
+      <span>TODO: Posts</span>
+    </div>
+    <div class="clr-col-4">
+      <app-group-member-list></app-group-member-list>
+    </div>
+  </div>
+
 </div>

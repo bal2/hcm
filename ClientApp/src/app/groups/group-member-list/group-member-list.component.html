@@ -1,3 +1,27 @@
-<p>
-  group-member-list works!
-</p>
+<h3>Members <span *ngIf="totalMembers">({{totalMembers}})</span>:</h3>
+<div *ngIf="!members && !error">
+  <span class="spinner spinner-inline">
+    Loading...
+  </span>
+  <span>
+    Loading...
+  </span>
+</div>
+<div *ngIf="error">
+  <p>An error occured while fetching the group members</p>
+</div>
+<div *ngIf="members">
+  <ul class="list">
+    <li *ngFor="let m of members">
+      {{m.firstName}} {{m.lastName}}
+      <span *ngIf="m.title">- {{m.title}}</span>
+      <span class="deleteIcon">
+        <clr-icon *ngIf="!removalInProgress" (click)="removeMember(m.userId)" shape="times"></clr-icon>
+        <span *ngIf="removalInProgress" class="spinner spinner-inline"></span>
+      </span>
+    </li>
+    <li *ngIf="members.length < totalMembers">
+      + {{totalMembers - members.length}} more
+    </li>
+  </ul>
+</div>

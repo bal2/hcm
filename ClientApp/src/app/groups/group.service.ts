@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GroupModel, NewGroupModel } from './group.model';
+import { GroupModel, NewGroupModel, GroupMemberModel, GroupMemberDetailsModel } from './group.model';
 import { ListResponse } from '../listResponse.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -21,5 +21,17 @@ export class GroupService {
 
   get(id: number): Observable<GroupModel> {
     return this.http.get<GroupModel>("/api/groups/" + id);
+  }
+
+  getMembers(id: number, pageNumber = 1, pageSize = 10): Observable<ListResponse<GroupMemberModel>> {
+    return this.http.get<ListResponse<GroupMemberModel>>("/api/groups/" + id + "/members?PageNumber=" + pageNumber + "&PageSize=" + pageSize);
+  }
+
+  getMemberDetails(id: number, userId: number): Observable<GroupMemberDetailsModel> {
+    return this.http.get<GroupMemberDetailsModel>("/api/groups/" + id + "/members/" + userId);
+  }
+
+  removeMember(id: number, userId: number): Observable<object> {
+    return this.http.delete("/api/groups/" + id + "/members/" + userId);
   }
 }
