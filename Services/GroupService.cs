@@ -90,6 +90,18 @@ namespace hcm.Services
             return new MemberDTO(gm);
         }
 
+        public async Task<MemberDetailsDTO> GetMemberAsync(long groupId, long userId)
+        {
+            var g = await GetGroupModelAsync(groupId);
+            var u = await _userService.GetUserAsync(userId);
+
+            var gm = await _dbContext.GroupMemberships.Where(m => m.GroupId == groupId && m.UserId == userId).FirstOrDefaultAsync();
+            if (gm == null)
+                throw new BadRequestException("User is not a member of the group");
+
+            return new MemberDetailsDTO(gm);
+        }
+
         public async Task RemoveMemberAsync(long groupId, long userId)
         {
             var g = await GetGroupModelAsync(groupId);

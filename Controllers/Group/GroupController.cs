@@ -151,6 +151,19 @@ namespace hcm.Controllers.Groups
             }
         }
 
+        [HttpGet("{id}/members/{userId}"), Authorize(Policy = "IsAdmin")]
+        public async Task<IActionResult> GetMemberAsync(long id, long userId)
+        {
+            try
+            {
+                return Ok(await _groupService.GetMemberAsync(id, userId));
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
         [HttpDelete("{id}/members/{userId}"), Authorize(Policy = "IsAdmin")]
         public async Task<IActionResult> DeleteMemberAsync(long id, long userId)
         {
