@@ -12,16 +12,42 @@
 </div>
 <div *ngIf="members">
   <ul class="list">
-    <li *ngFor="let m of members">
+    <li *ngFor="let m of members" (click)="fetchMember(m.userId)">
       {{m.firstName}} {{m.lastName}}
       <span *ngIf="m.title">- {{m.title}}</span>
-      <span class="deleteIcon">
-        <clr-icon *ngIf="!removalInProgress" (click)="removeMember(m.userId)" shape="times"></clr-icon>
-        <span *ngIf="removalInProgress" class="spinner spinner-inline"></span>
+      <span class="inspectIcon">
+        <clr-icon shape="eye"></clr-icon>
       </span>
     </li>
     <li *ngIf="members.length < totalMembers">
       + {{totalMembers - members.length}} more
     </li>
   </ul>
+  <button type="button" title="Add member" [clrLoading]="addBtnStatus" (click)="showUserSelect = true" class="btn btn-sm btn-icon">
+      <clr-icon shape="plus"></clr-icon>
+  </button>
 </div>
+
+
+<clr-modal *ngIf="member" [(clrModalOpen)]="memberPopup">
+  <h3 class="modal-title">{{member.firstName}} {{member.lastName}}</h3>
+  <div class="modal-body">
+    <div class="clr-row">
+      <div class="clr-col-4">
+        <img *ngIf="member.base64Picture" src="data:image/png;base64,{{member.base64Picture}}" class="img-fluid">
+      </div>
+      <div class="clr-col-8">
+        <span>{{member.title}}</span><br>
+        <span *ngIf="member.isGroupAdmin"><clr-icon shape="shield"></clr-icon> Group admin</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" [clrLoading]="removalBtnStatus" (click)="removeMember(member.userId)"><clr-icon shape="trash"></clr-icon> Delete membership</button>
+    <button type="button" class="btn btn-outline" *ngIf="!member.isGroupAdmin" [clrLoading]="adminBtnStatus" (click)="setAdmin(member.userId, true)"><clr-icon shape="shield"></clr-icon> Make admin</button>
+    <button type="button" class="btn btn-outline" *ngIf="member.isGroupAdmin" [clrLoading]="adminBtnStatus" (click)="setAdmin(member.userId, false)"><clr-icon shape="shield-x"></clr-icon> Remove admin</button>
+    <button type="button" class="btn btn-primary" (click)="memberPopup = false">Close</button>
+  </div>
+</clr-modal>
+
+<app-user-lookup *ngIf="showUserSelect" [showComponent]="showUserSelect" (userSelected)="addMember($event)"></app-user-lookup>

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -156,7 +157,19 @@ namespace hcm.Controllers.Groups
         {
             try
             {
-                return Ok(await _groupService.GetMemberAsync(id, userId));
+                MemberDetailsDTO m = await _groupService.GetMemberAsync(id, userId);
+
+                MemberDetailsResourceModel md = new MemberDetailsResourceModel()
+                {
+                    UserId = m.User.UserId,
+                    FirstName = m.User.FirstName,
+                    LastName = m.User.LastName,
+                    Title = m.User.Title,
+                    IsGroupAdmin = m.IsGroupAdmin,
+                    Base64Picture = m.User.Picture != null ? Convert.ToBase64String(m.User.Picture) : null
+                };
+
+                return Ok(md);
             }
             catch (NotFoundException e)
             {
@@ -172,6 +185,28 @@ namespace hcm.Controllers.Groups
                 await _groupService.RemoveMemberAsync(id, userId);
 
                 return Ok();
+            }
+            catch (BadRequestException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpPut("{id}/members/{userId}"), Authorize(Policy = "IsAdmin")]
+        public async Task<IActionResult> UpdateMemberAsync(long id, long userId, [FromBody] MemberUpdateResourceModel mu)
+        {
+            try
+            {
+                var mdto = new UpdateMemberDTO();
+                mdto.IsGroupAdmin = mu.IsGroupAdmin;
+
+                var m = await _groupService.UpdateMemberAsync(id, userId, mdto);
+
+                return Ok(m);
             }
             catch (BadRequestException e)
             {

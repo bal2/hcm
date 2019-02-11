@@ -3,6 +3,7 @@ import { GroupModel, NewGroupModel, GroupMemberModel, GroupMemberDetailsModel } 
 import { ListResponse } from '../listResponse.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { MemberDetailsModel } from '../members/memberDetails.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +28,23 @@ export class GroupService {
     return this.http.get<ListResponse<GroupMemberModel>>("/api/groups/" + id + "/members?PageNumber=" + pageNumber + "&PageSize=" + pageSize);
   }
 
+  addMember(id: number, userId: number): Observable<GroupMemberDetailsModel> {
+    let obj = {
+      userId: userId
+    }
+
+    return this.http.post<GroupMemberDetailsModel>("/api/groups/" + id + "/members", obj);
+  }
+
   getMemberDetails(id: number, userId: number): Observable<GroupMemberDetailsModel> {
     return this.http.get<GroupMemberDetailsModel>("/api/groups/" + id + "/members/" + userId);
   }
 
   removeMember(id: number, userId: number): Observable<object> {
     return this.http.delete("/api/groups/" + id + "/members/" + userId);
+  }
+
+  updateMember(id: number, userId: number, m: GroupMemberDetailsModel): Observable<GroupMemberDetailsModel> {
+    return this.http.put<GroupMemberDetailsModel>("/api/groups/" + id + "/members/" + userId, m);
   }
 }

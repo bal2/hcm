@@ -7,6 +7,6 @@ namespace hcm.Controllers.Groups
         public string LastName { get; set; }
         public string Title { get; set; }
         public bool IsGroupAdmin { get; set; }
-        public string Base64Image { get; set; }
+        public string Base64Picture { get; set; }
     }
 }

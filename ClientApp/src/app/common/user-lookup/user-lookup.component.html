@@ -1,0 +1,31 @@
+<clr-modal [clrModalOpen]="showComponent" (clrModalOpenChange)="selectUser(null)">
+  <h3 class="modal-title">Select user</h3>
+
+  <div class="modal-body">
+    <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+      <clr-dg-column>User ID</clr-dg-column>
+      <clr-dg-column>First name</clr-dg-column>
+      <clr-dg-column>Last name</clr-dg-column>
+      <clr-dg-column>Title</clr-dg-column>
+      <clr-dg-column>Select</clr-dg-column>
+
+      <clr-dg-row *ngFor="let m of members">
+        <clr-dg-cell>{{m.userId}}</clr-dg-cell>
+        <clr-dg-cell>{{m.firstName}}</clr-dg-cell>
+        <clr-dg-cell>{{m.lastName}}</clr-dg-cell>
+        <clr-dg-cell>{{m.title}}</clr-dg-cell>
+        <clr-dg-cell>
+          <button (click)="selectUser(m)" class="btn btn-link btn-sm">
+            Select
+          </button></clr-dg-cell>
+      </clr-dg-row>
+
+      <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{total}} members
+        <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+
+</clr-modal>

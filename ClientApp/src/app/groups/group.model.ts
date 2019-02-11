@@ -21,6 +21,7 @@ export class GroupMemberModel {
 }
 
 export class GroupMemberDetailsModel {
+    isGroupAdmin: boolean;
     userId: number;
     firstName: string;
     lastName: string;

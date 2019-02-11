@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupService } from '../group.service';
-import { GroupMemberModel } from '../group.model';
+import { GroupMemberModel, GroupMemberDetailsModel } from '../group.model';
 import { ActivatedRoute } from '@angular/router';
+import { ClrLoadingState } from '@clr/angular';
+import { MemberModel } from 'src/app/members/member.model';
 
 @Component({
   selector: 'app-group-member-list',
@@ -14,7 +16,14 @@ export class GroupMemberListComponent implements OnInit {
   members: GroupMemberModel[];
   totalMembers: number;
   error: boolean;
-  removalInProgress: boolean = false;
+
+  removalBtnStatus: ClrLoadingState = ClrLoadingState.DEFAULT;
+  adminBtnStatus: ClrLoadingState = ClrLoadingState.DEFAULT;
+  memberPopup: boolean = false;
+  member: GroupMemberDetailsModel;
+
+  addBtnStatus: ClrLoadingState = ClrLoadingState.DEFAULT;
+  showUserSelect: boolean = false;
 
   constructor(
     private groupService: GroupService,
@@ -39,13 +48,54 @@ export class GroupMemberListComponent implements OnInit {
       });
   }
 
+  fetchMember(userId: number) {
+    this.groupService.getMemberDetails(this.groupId, userId)
+      .subscribe((m) => {
+        this.member = m;
+        this.memberPopup = true;
+      });
+  }
+
   removeMember(userId: number) {
-    this.removalInProgress = true;
+    this.removalBtnStatus = ClrLoadingState.LOADING;
 
     this.groupService.removeMember(this.groupId, userId)
       .subscribe(() => {
-        this.removalInProgress = false;
+        this.removalBtnStatus = ClrLoadingState.SUCCESS;
         this.fetchMembers();
+        this.memberPopup = false;
+      }, () => {
+        this.removalBtnStatus = ClrLoadingState.ERROR;
+      });
+  }
+
+  setAdmin(userId: number, value: boolean) {
+    this.adminBtnStatus = ClrLoadingState.LOADING;
+
+    this.member.isGroupAdmin = value;
+
+    this.groupService.updateMember(this.groupId, userId, this.member)
+      .subscribe(() => {
+        this.adminBtnStatus = ClrLoadingState.SUCCESS;
+      }, () => {
+        this.adminBtnStatus = ClrLoadingState.ERROR;
+      });
+  }
+
+  addMember(u: MemberModel) {
+    this.showUserSelect = false;
+
+    if (!u)
+      return;
+
+    this.addBtnStatus = ClrLoadingState.LOADING;
+
+    this.groupService.addMember(this.groupId, u.userId)
+      .subscribe(() => {
+        this.addBtnStatus = ClrLoadingState.SUCCESS;
+        this.fetchMembers();
+      }, () => {
+        this.addBtnStatus = ClrLoadingState.ERROR;
       });
   }
 }

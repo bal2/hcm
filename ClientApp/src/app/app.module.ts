@@ -19,6 +19,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupDetailsComponent } from './groups/group-details/group-details.component';
 import { GroupMemberListComponent } from './groups/group-member-list/group-member-list.component';
+import { UserLookupComponent } from './common/user-lookup/user-lookup.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { GroupMemberListComponent } from './groups/group-member-list/group-membe
     CardaccessComponent,
     GroupsComponent,
     GroupDetailsComponent,
-    GroupMemberListComponent
+    GroupMemberListComponent,
+    UserLookupComponent
   ],
   imports: [
     BrowserModule,
