@@ -4,6 +4,7 @@ import { GroupMemberModel, GroupMemberDetailsModel } from '../group.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClrLoadingState } from '@clr/angular';
 import { MemberModel } from 'src/app/members/member.model';
+import { AlertService } from 'src/app/alert.service';
 
 @Component({
   selector: 'app-group-member-list',
@@ -27,7 +28,8 @@ export class GroupMemberListComponent implements OnInit {
 
   constructor(
     private groupService: GroupService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -64,6 +66,7 @@ export class GroupMemberListComponent implements OnInit {
         this.removalBtnStatus = ClrLoadingState.SUCCESS;
         this.fetchMembers();
         this.memberPopup = false;
+        this.alertService.addLocalAlert("info", "User has been removed");
       }, () => {
         this.removalBtnStatus = ClrLoadingState.ERROR;
       });
@@ -94,6 +97,7 @@ export class GroupMemberListComponent implements OnInit {
       .subscribe(() => {
         this.addBtnStatus = ClrLoadingState.SUCCESS;
         this.fetchMembers();
+        this.alertService.addLocalAlert("success", "User added successfully");
       }, () => {
         this.addBtnStatus = ClrLoadingState.ERROR;
       });
