@@ -3,13 +3,13 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthenticationService } from '../login/authentication.service';
-import { GlobalAlertService } from '../global-alert.service';
+import { AlertService } from '../alert.service';
 
 
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService, private alertService: GlobalAlertService) { }
+    constructor(private authenticationService: AuthenticationService, private alertService: AlertService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
@@ -19,7 +19,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                 location.reload(true);
             }
             else if (err.status === 403) {
-                this.alertService.addAlert("danger", "You do not have permission to view this resource.");
+                this.alertService.addGlobalAlert("danger", "You do not have permission to view this resource.");
+            }
+            else if (err.status === 400) {
+                this.alertService.addLocalAlert("danger", err.error);
             }
 
             const error = err.error || err.statusText;

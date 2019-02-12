@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from './login/authentication.service';
-import { GlobalAlertService } from './global-alert.service';
+import { AlertService } from './alert.service';
 
 @Component({
   selector: 'app-root',
@@ -11,5 +11,5 @@ export class AppComponent {
   
   collapsed: boolean = true;
 
-  constructor(public authService: AuthenticationService, public alertService: GlobalAlertService) { }
+  constructor(public authService: AuthenticationService, public alertService: AlertService) { }
 }

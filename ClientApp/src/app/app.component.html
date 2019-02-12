@@ -1,5 +1,5 @@
 <clr-main-container>
-  <div *ngFor="let a of alertService.alerts | async">
+  <div *ngFor="let a of alertService.globalAlerts | async">
     <div class="alert alert-app-level" [ngClass]="{'alert-danger': a.type == 'danger'}" role="alert">
       <div class="alert-items">
         <div class="alert-item static">
@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-      <button type="button" class="close" aria-label="Close" (click)="alertService.close(a.id)">
+      <button type="button" class="close" aria-label="Close" (click)="alertService.closeGlobalAlert(a.id)">
         <clr-icon aria-hidden="true" shape="close"></clr-icon>
       </button>
     </div>
@@ -25,6 +25,26 @@
   </clr-header>
   <div class="content-container">
     <div class="content-area">
+      <div *ngFor="let a of alertService.localAlerts | async">
+        <div class="alert alert-{{a.type}}" role="alert">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon *ngIf="a.type == 'success'" class="alert-icon" shape="check-circle"></clr-icon>
+                <clr-icon *ngIf="a.type == 'danger'" class="alert-icon" shape="exclamation-circle"></clr-icon>
+                <clr-icon *ngIf="a.type == 'warning'" class="alert-icon" shape="exclamation-triangle"></clr-icon>
+                <clr-icon *ngIf="a.type == 'info'" class="alert-icon" shape="info-circle"></clr-icon>
+              </div>
+              <span class="alert-text">
+                {{a.message}}
+              </span>
+            </div>
+          </div>
+          <button type="button" class="close" aria-label="Close" (click)="alertService.closeLocalAlert(a.id)">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+          </button>
+        </div>
+      </div>
       <router-outlet></router-outlet>
     </div>
     <clr-vertical-nav [clr-nav-level]="1" [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed"
