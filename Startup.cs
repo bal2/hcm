@@ -1,8 +1,10 @@
 using System;
 using System.Text;
+using hcm.Auth;
 using hcm.Database;
 using hcm.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -46,15 +48,14 @@ namespace hcm
                 };
             });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("IsAdmin",
-                policy => policy.RequireClaim("IsAdmin"));
-            });
+            services.AddAuthorization();
 
             services.AddDbContext<HcmContext>(opt =>
                opt.UseSqlite("Filename=./hcm.sqlite")
             );
+
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
             services.AddScoped<UserService>();
             services.AddScoped<GroupService>();

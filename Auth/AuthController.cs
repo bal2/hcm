@@ -39,11 +39,29 @@ namespace hcm.Auth
             if (hasher.VerifyHashedPassword(user, user.PasswordHash, credentials.Password) != PasswordVerificationResult.Success)
                 return BadRequest("Invalid credentials");
 
-            var claims = new[] { new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()) };
+            //Get permissions
+            var query = from roleUsers in _dbContext.RoleUsers
+                        join rolePermissions in _dbContext.RolePermissions on roleUsers.RoleId equals rolePermissions.RoleId
+                        join permissions in _dbContext.Permissions on rolePermissions.PermissionId equals permissions.PermissionId
+                        where roleUsers.UserId == user.UserId
+                        select permissions;
 
-            if(user.IsAdmin)
-                claims = new[] { new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()), new Claim(CustomClaimTypes.IsAdmin, user.IsAdmin.ToString()) };
-                
+            string permissionString = "";
+            List<Permission> prm = query.ToList();
+            foreach (Permission p in prm)
+                permissionString += p.Name + " ";
+
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
+                new Claim(CustomClaimTypes.Permissions, permissionString)
+            };
+
+            if (user.IsAdmin)
+                claims = new[] {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
+                    new Claim(CustomClaimTypes.IsAdmin, user.IsAdmin.ToString()),
+                    new Claim(CustomClaimTypes.Permissions, permissionString)
+                };
 
             //TODO
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
@@ -77,5 +95,7 @@ namespace hcm.Auth
     public static class CustomClaimTypes
     {
         public const string IsAdmin = "IsAdmin";
+
+        public const string Permissions = "Permissions";
     }
 }

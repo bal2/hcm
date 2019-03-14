@@ -25,7 +25,7 @@ namespace hcm.Controllers.Users
             this._userService = userService;
         }
 
-        [HttpGet(Name = "GetUsers"), Authorize(Policy = "IsAdmin")]
+        [HttpGet(Name = "GetUsers"), Authorize("ViewUsers")]
         public IActionResult getUsers([FromQuery] ListQueryArgs args)
         {
             var m = _userService.GetUsers(args);
@@ -38,7 +38,7 @@ namespace hcm.Controllers.Users
             });
         }
 
-        [HttpPost, Authorize(Policy = "IsAdmin")]
+        [HttpPost, Authorize("CreateUser")]
         public async Task<UserResourceModel> postUserAsync([FromBody] UserCreateModel newUser)
         {
             User u = new User()
@@ -60,7 +60,7 @@ namespace hcm.Controllers.Users
             return new UserResourceModel(u);
         }
 
-        [HttpGet("{id}"), Authorize(Policy = "IsAdmin")]
+        [HttpGet("{id}"), Authorize("ViewUsers")]
         public async Task<IActionResult> GetUserAsync(long id)
         {
             try
@@ -74,7 +74,7 @@ namespace hcm.Controllers.Users
             }
         }
 
-        [HttpPut("{id}"), Authorize(Policy = "IsAdmin")]
+        [HttpPut("{id}"), Authorize("UpdateUser")]
         public async Task<IActionResult> PutUserAsync(long id, [FromBody] UserUpdateResourceModel u)
         {
             try
@@ -101,7 +101,7 @@ namespace hcm.Controllers.Users
             }
         }
 
-        [HttpPost("{id}/picture"), Authorize(Policy = "IsAdmin")]
+        [HttpPost("{id}/picture"), Authorize("UpdateUser")]
         public async Task<IActionResult> PostUserPictureAsync(long id, UserPictureResourceModel pic)
         {
             try

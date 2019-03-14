@@ -11,6 +11,10 @@ namespace hcm.Database
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupMembership> GroupMemberships { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<RoleUser> RoleUsers { get; set; }
 
         public HcmContext(DbContextOptions<HcmContext> options) : base(options)
         {
@@ -68,6 +72,50 @@ namespace hcm.Database
                 .Property(m => m.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .ValueGeneratedOnAdd();
+
+            //Permissions
+            modelBuilder.Entity<Permission>()
+                .HasKey(p => p.PermissionId);
+            modelBuilder.Entity<Permission>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+            modelBuilder.Entity<Role>()
+                .HasKey(r => r.RoleId);
+            modelBuilder.Entity<Role>()
+                .HasIndex(r => r.Name)
+                .IsUnique();
+            modelBuilder.Entity<RolePermission>()
+                .HasKey(rp => new { rp.RoleId, rp.PermissionId });
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Role)
+                .WithMany(r => r.Permissions)
+                .HasForeignKey(rp => rp.RoleId);
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Permission)
+                .WithMany(p => p.Roles)
+                .HasForeignKey(rp => rp.PermissionId);
+            modelBuilder.Entity<RoleUser>()
+               .HasKey(ru => new { ru.RoleId, ru.UserId });
+            modelBuilder.Entity<RoleUser>()
+                .HasOne(ru => ru.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(ru => ru.RoleId);
+            modelBuilder.Entity<RoleUser>()
+                .HasOne(ru => ru.User)
+                .WithMany(u => u.Roles)
+                .HasForeignKey(ru => ru.UserId);
+
+            modelBuilder.Entity<Permission>()
+            .HasData(
+                new { PermissionId = 1L, Name = "ViewUsers", Description = "View users and user details" },
+                new { PermissionId = 2L, Name = "CreateUser", Description = "Create new users" },
+                new { PermissionId = 3L, Name = "UpdateUser", Description = "Update user details" },
+                new { PermissionId = 4L, Name = "DeleteUser", Description = "Delete users" },
+                new { PermissionId = 5L, Name = "ViewGroups", Description = "View groups and group details" },
+                new { PermissionId = 6L, Name = "CreateGroup", Description = "Create new groups" },
+                new { PermissionId = 7L, Name = "UpdateGroup", Description = "Update group details" },
+                new { PermissionId = 8L, Name = "DeleteGroup", Description = "Delete groups" }
+            );
         }
     }
 }

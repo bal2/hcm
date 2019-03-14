@@ -20,7 +20,7 @@ namespace hcm.Controllers.Groups
             _groupService = groupService;
         }
 
-        [HttpGet(Name = "GetGroups"), Authorize]
+        [HttpGet(Name = "GetGroups"), Authorize("ViewGroups")]
         public IActionResult GetGroups([FromQuery] ListQueryArgs args)
         {
             var m = _groupService.GetGroups(args);
@@ -33,7 +33,7 @@ namespace hcm.Controllers.Groups
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize("ViewGroups")]
         public async Task<IActionResult> GetGroupAsync(long id)
         {
             try
@@ -48,7 +48,7 @@ namespace hcm.Controllers.Groups
             }
         }
 
-        [HttpPost, Authorize(Policy = "IsAdmin")]
+        [HttpPost, Authorize("CreateGroup")]
         public async Task<IActionResult> PostGroupAsync([FromBody] GroupCreateResourceModel n)
         {
             try
@@ -75,7 +75,7 @@ namespace hcm.Controllers.Groups
             }
         }
 
-        [HttpPut("{id}"), Authorize(Policy = "IsAdmin")]
+        [HttpPut("{id}"), Authorize("UpdateGroup")]
         public async Task<IActionResult> UpdateGroupAsync(long id, [FromBody] GroupUpdateResourceModel u)
         {
             try
@@ -97,7 +97,7 @@ namespace hcm.Controllers.Groups
             }
         }
 
-        [HttpGet("{id}/members"), Authorize(Policy = "IsAdmin")]
+        [HttpGet("{id}/members"), Authorize("ViewGroups")]
         public async Task<IActionResult> GetMembersAsync(long id, [FromQuery] ListQueryArgs args)
         {
             try
@@ -124,7 +124,7 @@ namespace hcm.Controllers.Groups
             }
         }
 
-        [HttpPost("{id}/members"), Authorize(Policy = "IsAdmin")]
+        [HttpPost("{id}/members"), Authorize("UpdateGroup")]
         public async Task<IActionResult> PostMemberAsync(long id, [FromBody] MemberCreateResourceModel m)
         {
             try
@@ -152,7 +152,7 @@ namespace hcm.Controllers.Groups
             }
         }
 
-        [HttpGet("{id}/members/{userId}"), Authorize(Policy = "IsAdmin")]
+        [HttpGet("{id}/members/{userId}"), Authorize("ViewGroups")]
         public async Task<IActionResult> GetMemberAsync(long id, long userId)
         {
             try
@@ -177,7 +177,7 @@ namespace hcm.Controllers.Groups
             }
         }
 
-        [HttpDelete("{id}/members/{userId}"), Authorize(Policy = "IsAdmin")]
+        [HttpDelete("{id}/members/{userId}"), Authorize("UpdateGroup")]
         public async Task<IActionResult> DeleteMemberAsync(long id, long userId)
         {
             try
@@ -196,7 +196,7 @@ namespace hcm.Controllers.Groups
             }
         }
 
-        [HttpPut("{id}/members/{userId}"), Authorize(Policy = "IsAdmin")]
+        [HttpPut("{id}/members/{userId}"), Authorize("UpdateGroup")]
         public async Task<IActionResult> UpdateMemberAsync(long id, long userId, [FromBody] MemberUpdateResourceModel mu)
         {
             try
