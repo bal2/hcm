@@ -25,24 +25,26 @@
   </clr-header>
   <div class="content-container">
     <div class="content-area">
-      <div *ngFor="let a of alertService.localAlerts | async">
-        <div class="alert alert-{{a.type}}" role="alert">
-          <div class="alert-items">
-            <div class="alert-item static">
-              <div class="alert-icon-wrapper">
-                <clr-icon *ngIf="a.type == 'success'" class="alert-icon" shape="check-circle"></clr-icon>
-                <clr-icon *ngIf="a.type == 'danger'" class="alert-icon" shape="exclamation-circle"></clr-icon>
-                <clr-icon *ngIf="a.type == 'warning'" class="alert-icon" shape="exclamation-triangle"></clr-icon>
-                <clr-icon *ngIf="a.type == 'info'" class="alert-icon" shape="info-circle"></clr-icon>
+      <div *ngIf="authService.isAuthenticated()">
+        <div *ngFor="let a of alertService.localAlerts | async">
+          <div class="alert alert-{{a.type}}" role="alert">
+            <div class="alert-items">
+              <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                  <clr-icon *ngIf="a.type == 'success'" class="alert-icon" shape="check-circle"></clr-icon>
+                  <clr-icon *ngIf="a.type == 'danger'" class="alert-icon" shape="exclamation-circle"></clr-icon>
+                  <clr-icon *ngIf="a.type == 'warning'" class="alert-icon" shape="exclamation-triangle"></clr-icon>
+                  <clr-icon *ngIf="a.type == 'info'" class="alert-icon" shape="info-circle"></clr-icon>
+                </div>
+                <span class="alert-text">
+                  {{a.message}}
+                </span>
               </div>
-              <span class="alert-text">
-                {{a.message}}
-              </span>
             </div>
+            <button type="button" class="close" aria-label="Close" (click)="alertService.closeLocalAlert(a.id)">
+              <clr-icon aria-hidden="true" shape="close"></clr-icon>
+            </button>
           </div>
-          <button type="button" class="close" aria-label="Close" (click)="alertService.closeLocalAlert(a.id)">
-            <clr-icon aria-hidden="true" shape="close"></clr-icon>
-          </button>
         </div>
       </div>
       <router-outlet></router-outlet>

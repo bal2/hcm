@@ -24,6 +24,9 @@ export class ErrorInterceptor implements HttpInterceptor {
             else if (err.status === 400) {
                 this.alertService.addLocalAlert("danger", err.error);
             }
+            else if (err.status === 404) {
+                this.alertService.addLocalAlert("danger", err.error);
+            }
 
             const error = err.error || err.statusText;
             return throwError(error);
