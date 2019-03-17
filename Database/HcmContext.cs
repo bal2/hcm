@@ -114,7 +114,11 @@ namespace hcm.Database
                 new { PermissionId = 5L, Name = "ViewGroups", Description = "View groups and group details" },
                 new { PermissionId = 6L, Name = "CreateGroup", Description = "Create new groups" },
                 new { PermissionId = 7L, Name = "UpdateGroup", Description = "Update group details" },
-                new { PermissionId = 8L, Name = "DeleteGroup", Description = "Delete groups" }
+                new { PermissionId = 8L, Name = "DeleteGroup", Description = "Delete groups" },
+                new { PermissionId = 9L, Name = "ViewRoles", Description = "View roles" },
+                new { PermissionId = 10L, Name = "CreateRole", Description = "Create new roles" },
+                new { PermissionId = 11L, Name = "UpdateRole", Description = "Update roles" },
+                new { PermissionId = 12L, Name = "DeleteRole", Description = "Delete roles" }
             );
         }
     }

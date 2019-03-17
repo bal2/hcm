@@ -112,7 +112,7 @@ namespace hcm.Services
             if (!await CheckIfRoleContainsPermission(roleId, permissionId))
                 throw new BadRequestException("Role does not contain permission");
 
-            var rp = await _dbContext.RolePermissions.Where(ro => ro.RoleId == roleId && ro.PermissionId == permissionId).FirstAsync();
+            var rp = await _dbContext.RolePermissions.Where(ro => ro.RoleId == roleId && ro.PermissionId == permissionId).FirstOrDefaultAsync();
 
             _dbContext.RolePermissions.Remove(rp);
             await _dbContext.SaveChangesAsync();
@@ -138,7 +138,7 @@ namespace hcm.Services
             if (!await CheckIfRoleContainsUser(roleId, userId))
                 throw new BadRequestException("Role does not contain user");
 
-            var ru = await _dbContext.RoleUsers.Where(o => o.RoleId == roleId && o.UserId == userId).FirstAsync();
+            var ru = await _dbContext.RoleUsers.Where(o => o.RoleId == roleId && o.UserId == userId).FirstOrDefaultAsync();
 
             _dbContext.RoleUsers.Remove(ru);
             await _dbContext.SaveChangesAsync();
@@ -185,9 +185,9 @@ namespace hcm.Services
         private async Task<bool> CheckIfRoleNameExistsAsync(string name, long? ignoreId = null)
         {
             if (ignoreId == null)
-                return (await _dbContext.Roles.Where(r => r.Name == name).FirstAsync() != null);
+                return (await _dbContext.Roles.Where(r => r.Name == name).FirstOrDefaultAsync()) != null;
             else
-                return (await _dbContext.Roles.Where(r => r.Name == name && r.RoleId != ignoreId).FirstAsync() != null);
+                return (await _dbContext.Roles.Where(r => r.Name == name && r.RoleId != ignoreId).FirstOrDefaultAsync() != null);
         }
 
         private async Task<bool> CheckIfRoleContainsPermission(long roleId, long permissionId)
@@ -195,7 +195,7 @@ namespace hcm.Services
             var r = await GetRoleModelAsync(roleId);
             var p = await GetPermissionModelAsync(permissionId);
 
-            return await _dbContext.RolePermissions.Where(rp => rp.RoleId == roleId && rp.PermissionId == permissionId).FirstAsync() != null;
+            return await _dbContext.RolePermissions.Where(rp => rp.RoleId == roleId && rp.PermissionId == permissionId).FirstOrDefaultAsync() != null;
         }
 
         private async Task<bool> CheckIfRoleContainsUser(long roleId, long userId)
@@ -203,7 +203,7 @@ namespace hcm.Services
             var r = await GetRoleModelAsync(roleId);
             var u = await _userService.GetUserAsync(userId);
 
-            return await _dbContext.RoleUsers.Where(ru => ru.RoleId == roleId && ru.UserId == ru.UserId).FirstAsync() != null;
+            return await _dbContext.RoleUsers.Where(ru => ru.RoleId == roleId && ru.UserId == ru.UserId).FirstOrDefaultAsync() != null;
         }
 
         private async Task<Permission> GetPermissionModelAsync(long permissionId)
