@@ -1,3 +1,54 @@
-<p>
-  role-details works!
-</p>
+<div *ngIf="!role">
+  Loading...
+</div>
+
+<div *ngIf="role">
+  <h2>Edit role: {{role.name}}</h2>
+  <p><b>Description:</b> {{role.description}}</p>
+
+  <h3>Permissions:</h3>
+  <table class="table table-compact">
+    <thead>
+      <tr>
+        <th class="left"></th>
+        <th class="left">Name</th>
+        <th class="left">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of permissions">
+        <td class="left">
+          <input type="checkbox" clrToggle value="true" [(ngModel)]="p.inRole" (change)="changePermission(p)"
+            name="permission" />
+        </td>
+        <td class="left">{{p.name}}</td>
+        <td class="left">{{p.description}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Users with role:</h3>
+  <table class="table table-compact">
+    <thead>
+      <tr>
+        <th class="left">User id</th>
+        <th class="left">Name</th>
+        <th class="left">Title</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users">
+        <td class="left">{{u.userId}}</td>
+        <td class="left">{{u.lastName}}, {{u.firstName}}</td>
+        <td class="left">{{u.title}}</td>
+        <td><clr-icon (click)="removeUser(u.userId)" style="cursor: pointer;" shape="trash"></clr-icon></td>
+      </tr>
+    </tbody>
+  </table>
+  <button type="button" title="Add user" [clrLoading]="addBtnStatus" (click)="showUserSelect = true" class="btn btn-primary btn-sm btn-icon">
+      <clr-icon shape="plus"></clr-icon> Add user
+  </button>
+</div>
+
+<app-user-lookup *ngIf="showUserSelect" [showComponent]="showUserSelect" (userSelected)="addUser($event)"></app-user-lookup>

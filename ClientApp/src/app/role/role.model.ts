@@ -20,4 +20,5 @@ export class PermissionModel {
     permissionId: number;
     name: string;
     description: string;
+    inRole: boolean; //Set in GUI if permission is part of selected role
 }

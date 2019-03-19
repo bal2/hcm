@@ -27,15 +27,31 @@ export class RoleService {
     return this.http.put<RoleModel>("/api/roles/" + id, r);
   }
 
-  public getRoleUsers(id: number): Observable<RoleUserModel> {
-    return this.http.get<RoleUserModel>("/api/roles/" + id + "/users");
+  public getRoleUsers(id: number): Observable<RoleUserModel[]> {
+    return this.http.get<RoleUserModel[]>("/api/roles/" + id + "/users");
   }
 
-  public getRolePermissions(id: number): Observable<PermissionModel> {
-    return this.http.get<PermissionModel>("/api/roles/" + id + "/permissions");
+  public addRoleUser(id: number, userId: number): Observable<void> {
+    return this.http.post<void>("/api/roles/" + id + "/users", { userId: userId });
   }
 
-  public getAllPermissions(): Observable<PermissionModel> {
-    return this.http.get<PermissionModel>("/api/roles/permissions");
+  public removeRoleUser(id: number, userId: number): Observable<void> {
+    return this.http.delete<void>("/api/roles/" + id + "/users/" + userId);
+  }
+
+  public getRolePermissions(id: number): Observable<PermissionModel[]> {
+    return this.http.get<PermissionModel[]>("/api/roles/" + id + "/permissions");
+  }
+
+  public addRolePermission(id: number, permissionId: number): Observable<void> {
+    return this.http.post<void>("/api/roles/" + id + "/permissions", { permissionId: permissionId });
+  }
+
+  public removeRolePermission(id: number, permissionId: number): Observable<void> {
+    return this.http.delete<void>("/api/roles/" + id + "/permissions/" + permissionId);
+  }
+
+  public getAllPermissions(): Observable<PermissionModel[]> {
+    return this.http.get<PermissionModel[]>("/api/roles/permissions");
   }
 }
