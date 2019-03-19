@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -185,9 +186,9 @@ namespace hcm.Services
         private async Task<bool> CheckIfRoleNameExistsAsync(string name, long? ignoreId = null)
         {
             if (ignoreId == null)
-                return (await _dbContext.Roles.Where(r => r.Name == name).FirstOrDefaultAsync()) != null;
+                return (await _dbContext.Roles.Where(r => r.Name.ToLower() == name.ToLower()).FirstOrDefaultAsync() != null);
             else
-                return (await _dbContext.Roles.Where(r => r.Name == name && r.RoleId != ignoreId).FirstOrDefaultAsync() != null);
+                return (await _dbContext.Roles.Where(r => r.RoleId != ignoreId && r.Name.ToLower() == name.ToLower()).FirstOrDefaultAsync() != null);
         }
 
         private async Task<bool> CheckIfRoleContainsPermission(long roleId, long permissionId)
