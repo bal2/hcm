@@ -1,0 +1,52 @@
+<div>
+  <h2>Role and permissions</h2>
+  <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+    <clr-dg-column>Role id</clr-dg-column>
+    <clr-dg-column>Name</clr-dg-column>
+    <clr-dg-column>Description</clr-dg-column>
+    <clr-dg-column>View</clr-dg-column>
+
+    <clr-dg-row *ngFor="let r of roles">
+      <clr-dg-cell>{{r.roleId}}</clr-dg-cell>
+      <clr-dg-cell>{{r.name}}</clr-dg-cell>
+      <clr-dg-cell>{{r.description}}</clr-dg-cell>
+      <clr-dg-cell>
+        <span style="cursor: pointer;" (keyup.enter)="openRole(r.roleId)" (click)="openRole(r.roleId)" tabindex="0">
+          <clr-icon shape="angle" dir="right"></clr-icon>
+        </span>
+      </clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+      of {{total}} roles
+      <clr-dg-pagination #pagination [clrDgTotalItems]="total"></clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+  <button (click)="openCloseForm()" class="btn btn-primary">
+    <clr-icon shape="plus"></clr-icon> Create new role
+  </button>
+</div>
+
+<clr-modal [(clrModalOpen)]="showNewRoleForm">
+  <h3 class="modal-title">Create new role</h3>
+  <div class="modal-body">
+    <form clrForm [formGroup]="newRoleForm" (ngSubmit)="submitForm()">
+      <clr-input-container>
+        <label>Name</label>
+        <input clrInput placeholder="Name" name="name" formControlName="name" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Description</label>
+        <input clrInput placeholder="Description" name="description" formControlName="description" />
+      </clr-input-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" [disabled]="postState" (click)="openCloseForm()">Cancel</button>
+    <button type="button" class="btn btn-primary" [clrLoading]="postState" [disabled]="!newRoleForm.valid"
+      (click)="submitForm()">Create role</button>
+  </div>
+</clr-modal>

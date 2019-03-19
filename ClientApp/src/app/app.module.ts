@@ -20,6 +20,8 @@ import { GroupsComponent } from './groups/groups.component';
 import { GroupDetailsComponent } from './groups/group-details/group-details.component';
 import { GroupMemberListComponent } from './groups/group-member-list/group-member-list.component';
 import { UserLookupComponent } from './common/user-lookup/user-lookup.component';
+import { RoleListComponent } from './role/role-list/role-list.component';
+import { RoleDetailsComponent } from './role/role-details/role-details.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { UserLookupComponent } from './common/user-lookup/user-lookup.component'
     GroupsComponent,
     GroupDetailsComponent,
     GroupMemberListComponent,
-    UserLookupComponent
+    UserLookupComponent,
+    RoleListComponent,
+    RoleDetailsComponent
   ],
   imports: [
     BrowserModule,
