@@ -204,7 +204,7 @@ namespace hcm.Services
             var r = await GetRoleModelAsync(roleId);
             var u = await _userService.GetUserAsync(userId);
 
-            return await _dbContext.RoleUsers.Where(ru => ru.RoleId == roleId && ru.UserId == ru.UserId).FirstOrDefaultAsync() != null;
+            return await _dbContext.RoleUsers.Where(ru => ru.RoleId == roleId && ru.UserId == userId).FirstOrDefaultAsync() != null;
         }
 
         private async Task<Permission> GetPermissionModelAsync(long permissionId)
