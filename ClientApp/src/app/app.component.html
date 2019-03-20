@@ -60,9 +60,18 @@
       <a clrVerticalNavLink routerLink="/groups" routerLinkActive="active">
         <clr-icon clrVerticalNavIcon shape="users"></clr-icon> Groups
       </a>
-      <a clrVerticalNavLink routerLink="/members" routerLinkActive="active">
-        <clr-icon clrVerticalNavIcon shape="administrator"></clr-icon> Members
-      </a>
+      <clr-vertical-nav-group routerLinkActive="active">
+        <clr-icon shape="administrator" clrVerticalNavIcon></clr-icon>
+        Admin
+        <clr-vertical-nav-group-children>
+          <a clrVerticalNavLink routerLink="/members" routerLinkActive="active">
+            Users
+          </a>
+          <a clrVerticalNavLink routerLink="/system/roles" routerLinkActive="active">
+            Roles and permissions
+          </a>
+        </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group>
       <div class="nav-divider"></div>
       <a clrVerticalNavLink (click)="authService.logout()" routerLink="/login">
         <clr-icon clrVerticalNavIcon shape="logout"></clr-icon> Sign out
