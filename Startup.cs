@@ -83,7 +83,7 @@ namespace hcm
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection(); //This will be handled by the reverse proxy
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
