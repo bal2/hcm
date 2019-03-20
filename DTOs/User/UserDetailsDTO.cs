@@ -10,6 +10,9 @@ namespace hcm.DTOs.Users
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
+        public string Address { get; set; }
+        public string Zip { get; set; }
+        public string Town { get; set; }
         public string Phone { get; set; }
         public byte[] Picture { get; set; }
         public bool IsPictureApproved { get; set; }
@@ -23,6 +26,9 @@ namespace hcm.DTOs.Users
             Email = u.Email;
             FirstName = u.FirstName;
             LastName = u.LastName;
+            Address = u.Address;
+            Zip = u.Zip;
+            Town = u.Town;
             Title = u.Title;
             Phone = u.Phone;
             Picture = u.Picture;

@@ -11,6 +11,9 @@ namespace hcm.Controllers.Users
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
+        public string Address { get; set; }
+        public string Zip { get; set; }
+        public string Town { get; set; }
         public string Phone { get; set; }
         public string Base64Picture { get; set; }
         public bool IsPictureApproved { get; set; }
@@ -24,6 +27,9 @@ namespace hcm.Controllers.Users
             this.Email = u.Email;
             this.FirstName = u.FirstName;
             this.LastName = u.LastName;
+            this.Address = u.Address;
+            this.Zip = u.Zip;
+            this.Town = u.Town;
             this.Title = u.Title;
             this.Phone = u.Phone;
             this.IsPictureApproved = u.IsPictureApproved;
