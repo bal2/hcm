@@ -56,13 +56,6 @@ namespace hcm.Auth
                 new Claim(CustomClaimTypes.Permissions, permissionString)
             };
 
-            if (user.IsAdmin)
-                claims = new[] {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
-                    new Claim(CustomClaimTypes.IsAdmin, user.IsAdmin.ToString()),
-                    new Claim(CustomClaimTypes.Permissions, permissionString)
-                };
-
             //TODO
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -94,8 +87,6 @@ namespace hcm.Auth
 
     public static class CustomClaimTypes
     {
-        public const string IsAdmin = "IsAdmin";
-
         public const string Permissions = "Permissions";
     }
 }

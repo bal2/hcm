@@ -14,7 +14,6 @@ namespace hcm.Database.Models
         public string Phone { get; set; }
         public byte[] Picture { get; set; }
         public bool IsPictureApproved { get; set; }
-        public bool IsAdmin { get; set; }
         public string CardId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

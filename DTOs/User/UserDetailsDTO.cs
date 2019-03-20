@@ -13,7 +13,6 @@ namespace hcm.DTOs.Users
         public string Phone { get; set; }
         public byte[] Picture { get; set; }
         public bool IsPictureApproved { get; set; }
-        public bool IsAdmin { get; set; }
         public string CardId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
@@ -28,7 +27,6 @@ namespace hcm.DTOs.Users
             Phone = u.Phone;
             Picture = u.Picture;
             IsPictureApproved = u.IsPictureApproved;
-            IsAdmin = u.IsAdmin;
             CardId = u.CardId;
             CreatedAt = u.CreatedAt;
             UpdatedAt = u.UpdatedAt;

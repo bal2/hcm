@@ -15,7 +15,6 @@ namespace hcm.Controllers.Users
         public string Base64Picture { get; set; }
         public bool IsPictureApproved { get; set; }
         public string CardId { get; set; }
-        public bool IsAdmin { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
@@ -30,7 +29,6 @@ namespace hcm.Controllers.Users
             this.IsPictureApproved = u.IsPictureApproved;
             this.Base64Picture = u.Picture != null ? Convert.ToBase64String(u.Picture) : null;
             this.CardId = u.CardId;
-            this.IsAdmin = u.IsAdmin;
             this.CreatedAt = u.CreatedAt;
             this.UpdatedAt = u.UpdatedAt;
         }
